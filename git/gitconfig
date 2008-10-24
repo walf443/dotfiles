@@ -1,14 +1,3 @@
-[user]
-  name = Keiji, Yoshimi
-  email = walf443@gmail.com
-[core]
-  excludesfile = /Users/yoshimi/.gitignore
-  editor = "vim \"+e ++enc=utf-8\"" # force encoding utf-8 in log message.
-[color]
-  diff = auto
-  status = auto
-  branch = auto
-  ui = always
 [alias]
   ci = commit -v
   up = remote update
@@ -22,3 +11,14 @@
   svd = svn dcommit
   df = diff --no-prefix
 
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = always
+[core]
+  excludesfile = /Users/yoshimi/.gitignore
+  editor = "vim \"+e ++enc=utf-8\"" # force encoding utf-8 in log message.
+[user]
+	name = Keiji, Yoshimi
+	email = walf443@gmail.com

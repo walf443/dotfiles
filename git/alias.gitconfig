@@ -1,0 +1,13 @@
+[alias]
+  ci = commit -v
+  up = remote update
+  co = checkout
+  br = branch
+  st = status
+  di = diff
+  wt = whatchanged
+  svf = svn fetch
+  svr = svn rebase
+  svd = svn dcommit
+  df = diff --no-prefix
+
