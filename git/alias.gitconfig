@@ -10,4 +10,5 @@
   svf = svn fetch
   svr = svn rebase
   svd = svn dcommit
+  new = whatchanged -p HEAD@{1}..HEAD
 
