@@ -1,0 +1,4 @@
+*.o
+*.swf
+*.swp
+.DS_Store
