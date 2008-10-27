@@ -5,9 +5,9 @@
   br = branch
   st = status
   di = diff
+  df = diff --no-prefix
   wt = whatchanged
   svf = svn fetch
   svr = svn rebase
   svd = svn dcommit
-  df = diff --no-prefix
 
