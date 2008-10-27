@@ -1,4 +1,4 @@
-gitconfig:
+gitconfig: *.gitconfig
 	cat *.gitconfig > gitconfig
 
 clean:
