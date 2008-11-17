@@ -1,2 +1,3 @@
-setup: git/gitconfig
-	ln -s `pwd`/git/gitconfig $(HOME)/.gitconfig
+setup: git/gitconfig zsh/zshrc
+	ln -sf `pwd`/zsh/zshrc $(HOME)/.zshrc
+	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig

@@ -1,0 +1,7 @@
+export ZSH_CONFIG_DIR="$HOME/dotfiles/zsh"
+
+source "$ZSH_CONFIG_DIR/zshopt.zshrc"
+source "$ZSH_CONFIG_DIR/env.zshrc"
+source "$ZSH_CONFIG_DIR/alias.zshrc"
+
+source "$ZSH_CONFIG_DIR/hook.zshrc"
