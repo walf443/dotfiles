@@ -1,7 +1,7 @@
 # vim:ft=zsh:
 
 # common
-LANG="en_US.UTF-8"
+LANG="ja_JP.UTF-8"
 SYSTEM_PREFIX=/opt/local/
 EDITOR=$SYSTEM_PREFIX/bin/vim
 PAGER="/$SYSTEM_PREFIX/bin/lv -c"
