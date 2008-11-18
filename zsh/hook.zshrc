@@ -38,8 +38,6 @@ _show_dirname_on_screen_title() {
   echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
-_show_dirname_on_screen_title();
-
 if [ "$TERM" = "screen" ]; then
   preexec() {
     _show_cmd_on_screen_title;
