@@ -1,6 +1,6 @@
 [alias]
   ci = commit -v
-  up = remote update
+  up = !sh -c 'git remote update && git config --get-regexp svn-remote > /dev/null && git svn fetch'
   co = checkout
   br = branch
   st = status
