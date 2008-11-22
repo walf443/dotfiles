@@ -1,12 +1,7 @@
 # vim:ft=zsh:
 
 _set_env_git_current_branch() {
- if [ -f .git/HEAD ]
- then
-   GIT_CURRENT_BRANCH=$( git rev-parse HEAD | git name-rev --stdin --name-only )
- else
-   GIT_CURRENT_BRANCH=''
- fi
+   GIT_CURRENT_BRANCH=$( git name-rev HEAD --name-only ) &> /dev/null
 }
 
 _show_cmd_on_screen_title() {
