@@ -1,5 +1,14 @@
 # vim:ft=zsh:
 
+_set_env_git_current_branch() {
+ if [ -f .git/HEAD ]
+ then
+   GIT_CURRENT_BRANCH=$( git rev-parse HEAD | git name-rev --stdin --name-only )
+ else
+   GIT_CURRENT_BRANCH=''
+ fi
+}
+
 _show_cmd_on_screen_title() {
   local -a cmd; cmd=(${(z)2})
   case $cmd[1] in
@@ -10,14 +19,15 @@ _show_cmd_on_screen_title() {
             cmd=(builtin jobs -l $cmd[2])
         fi
         ;;
+    cd,vi)
+        if (( $#cmd == 2)); then
+            cmd[1]=$cmd[2]
+            echo $cmd[1];
+        fi
+        ;;
     %*)
         cmd=(builtin jobs -l $cmd[1])
         ;;
-    cd,vi,git)
-        if (( $#cmd == 2)); then
-            cmd[1]=$cmd[2]
-        fi
-        ;&
     *)
         echo -n "k$cmd[1]:t\\"
         prev=$cmd[1]
@@ -38,6 +48,12 @@ _show_dirname_on_screen_title() {
   echo -ne "\ek$(basename $(pwd))\e\\"
 }
 
+_update_rprompt () {
+  RPROMPT=$(print "%{\e[34m%}[ %(5~,%-2~/.../%2~,%~) %{\e[32m%}$GIT_CURRENT_BRANCH%{\e[34m%} ]%{\e[m%}" )
+}
+
+_update_rprompt
+
 if [ "$TERM" = "screen" ]; then
   preexec() {
     _show_cmd_on_screen_title;
@@ -45,10 +61,14 @@ if [ "$TERM" = "screen" ]; then
 
   precmd() {
     _show_dirname_on_screen_title;
+    _set_env_git_current_branch
+    _update_rprompt
   }
 
-  function chpwd () {
+  chpwd () {
     _show_dirname_on_screen_title;
+    _set_env_git_current_branch
+    _update_rprompt
   }
 fi
 

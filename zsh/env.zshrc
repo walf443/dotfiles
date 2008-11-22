@@ -27,7 +27,7 @@ PERL5LIB="$HOME/site_perl/:$PERL5LIB"
 
 # prompt
 PROMPT="%n%# "
-RPROMPT=$(print "%{[34m%}[ %(5~,%-2~/.../%2~,%~) ]%{[m%}")
+RPROMPT=$(print "%{[34m%}[ %(5~,%-2~/.../%2~,%~) $GIT_CURRENT_BRANCH ]%{[m%}" )
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
   PROMPT="%{[37m%}%n@${HOST%%.*}%# "
 
