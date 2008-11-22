@@ -7,19 +7,6 @@ _set_env_git_current_branch() {
 _show_cmd_on_screen_title() {
   local -a cmd; cmd=(${(z)2})
   case $cmd[1] in
-    fg)
-        if (( $#cmd == 1 )); then
-            cmd=(builtin jobs -l %+)
-        else
-            cmd=(builtin jobs -l $cmd[2])
-        fi
-        ;;
-    cd,vi)
-        if (( $#cmd == 2)); then
-            cmd[1]=$cmd[2]
-            echo $cmd[1];
-        fi
-        ;;
     %*)
         cmd=(builtin jobs -l $cmd[1])
         ;;
@@ -51,7 +38,6 @@ _update_rprompt
 
 if [ "$TERM" = "screen" ]; then
   preexec() {
-    _show_cmd_on_screen_title;
   }
 
   precmd() {
