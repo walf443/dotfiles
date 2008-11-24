@@ -1,7 +1,7 @@
 # vim:ft=zsh:
 
 _set_env_git_current_branch() {
-   GIT_CURRENT_BRANCH=$( git name-rev HEAD --name-only ) &> /dev/null
+  GIT_CURRENT_BRANCH=$( git branch &> /dev/null | grep '^\*' | cut -b 3- )
 }
 
 _show_cmd_on_screen_title() {
