@@ -6,7 +6,7 @@ SYSTEM_PREFIX=/opt/local/
 EDITOR=$SYSTEM_PREFIX/bin/vim
 PAGER="/$SYSTEM_PREFIX/bin/lv -c"
 CLICOLOR=\1
-PATH=~/bin:/Library/Ruby/Gems/bin:$PATH
+PATH=~/bin:/opt/local/bin:$PATH
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 MANPATH=$MANPATH:/$SYSTEM_PREFIX/man
 
@@ -17,10 +17,10 @@ SAVEHIST=1000000
 
 # ruby
 RUBYOPT="rubygems -Ku"
-RUBYLIB=$SYSTEM_PREFIX/lib/ruby/1.8/:$RUBYLIB
 GEM_PATH=/Library/Ruby/Gems/
 GEM_HOME=/Library/Ruby/Gems/
 SPEC_OPTS='-Du -c -fs'
+RUBYLIB=$SYSTEM_PREFIX/lib/ruby/1.8/:$RUBYLIB
 
 # perl
 PERL5LIB="$HOME/site_perl/:$PERL5LIB"
