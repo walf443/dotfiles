@@ -19,7 +19,6 @@ SAVEHIST=1000000
 RUBYOPT="rubygems -Ku"
 GEM_PATH=/Library/Ruby/Gems/
 GEM_HOME=/Library/Ruby/Gems/
-SPEC_OPTS='-Du -c -fs'
 RUBYLIB=$SYSTEM_PREFIX/lib/ruby/1.8/:$RUBYLIB
 
 # perl
