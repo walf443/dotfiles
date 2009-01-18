@@ -6,6 +6,7 @@
   st = status
   di = diff
   df = diff --no-prefix
+  rb = rebase
   wt = whatchanged
   svf = svn fetch
   svr = svn rebase
