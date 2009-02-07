@@ -1,0 +1,21 @@
+unless RUBY_VERSION >= "1.9.0"
+  $KCODE = 'u'
+end
+
+require 'irb/completion'
+require 'pp'
+
+puts "irb - interactive ruby -"
+puts
+
+IRB.conf[:SAVE_HISTORY] = 1000
+
+IRB.conf[:PROMPT][:SIMPLEST] = {
+  :PROMPT_I => "",
+  :PROMPT_S => "",
+  :PROMPT_C => "",
+  :RETURN => "\t#=> %s\n\n"
+}
+
+IRB.conf[:PROMPT_MODE] = :SIMPLEST
+

@@ -3,3 +3,5 @@ setup: git/gitconfig zsh/zshrc
 	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
 	ln -sf `pwd`/vimperator/vimperatorrc $(HOME)/.vimperatorrc
+	ln -sf `pwd`/irb/irbrc $(HOME)/.irbrc
+
