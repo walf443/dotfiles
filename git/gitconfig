@@ -7,11 +7,11 @@
   di = diff
   df = diff --no-prefix
   rb = rebase
-  wt = whatchanged
+  wt = whatchanged --stat
   svf = svn fetch
   svr = svn rebase
   svd = svn dcommit
-  new = whatchanged HEAD@{1}..HEAD --reverse
+  new = whatchanged HEAD@{1}..HEAD --reverse --stat
 
 [color]
   diff = auto
