@@ -1,3 +1,4 @@
 [core]
   excludesfile = /Users/yoshimi/dotfiles/git/gitignore
   editor = "vim \"+e ++enc=utf-8\"" # force encoding utf-8 in log message.
+  pager = "lv -c"

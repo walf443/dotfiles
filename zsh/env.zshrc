@@ -10,6 +10,11 @@ PATH=~/bin:/opt/local/bin:$PATH
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 MANPATH=$MANPATH:/$SYSTEM_PREFIX/man
 
+if [ `uname` = 'Darwin' ]
+then
+    PATH=$PATH:/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.2.0/bin/
+fi
+
 # zsh
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=1000000
