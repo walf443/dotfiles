@@ -1,4 +1,5 @@
 # common
+defutf8 on
 escape ^t^t
 idle 3600
 autodetach on
