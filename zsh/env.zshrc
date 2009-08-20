@@ -6,7 +6,7 @@ SYSTEM_PREFIX=/opt/local/
 EDITOR=$SYSTEM_PREFIX/bin/vim
 PAGER="/$SYSTEM_PREFIX/bin/lv -c"
 CLICOLOR=\1
-PATH=~/bin:/opt/local/bin:$PATH
+PATH=~/bin:/opt/local/bin:/usr/local/bin:$PATH
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 MANPATH=$MANPATH:/$SYSTEM_PREFIX/man
 
