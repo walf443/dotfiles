@@ -1,6 +1,7 @@
-setup: git/gitconfig zsh/zshrc
+setup: git/gitconfig zsh/zshenv
 	ln -sf `pwd`/zsh/zshenv $(HOME)/.zshenv
-	touch  `pwd`/zsh/custom.zshrc
+	touch  $(HOME)/.zshrc
+	touch  $(HOME)/.zshrc_custom
 	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
 	ln -sf `pwd`/vim/vimrc $(HOME)/.vimrc
