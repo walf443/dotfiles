@@ -1,5 +1,9 @@
 export ZSH_CONFIG_DIR="$HOME/dotfiles/zsh"
 
+# 独自パッチを保持しつづけるのもしんどいので
+# 管理下じゃないファイル1つのデフォルトで読むようにする
+source "$ZSH_CONFIG_DIR/custom.zshrc" 
+
 source "$ZSH_CONFIG_DIR/zshopt.zshrc"
 source "$ZSH_CONFIG_DIR/hook.zshrc"
 
