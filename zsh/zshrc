@@ -12,5 +12,9 @@ source "$ZSH_CONFIG_DIR/alias.zshrc"
 
 if test ! $MF_DEV
 then
-    eval $(perl -I$HOME/local/lib/perl5 -Mlocal::lib=$HOME/local)
+    if test ! $LOCAL_LIB_SET
+    then
+        export LOCAL_LIB_SET=1
+        eval $(perl -I$HOME/local/lib/perl5 -Mlocal::lib=$HOME/local)
+    fi
 fi
