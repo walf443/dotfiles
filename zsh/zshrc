@@ -5,4 +5,8 @@ source "$ZSH_CONFIG_DIR/hook.zshrc"
 
 source "$ZSH_CONFIG_DIR/env.zshrc"
 source "$ZSH_CONFIG_DIR/alias.zshrc"
-eval $(perl -I$HOME/local/lib/perl5 -Mlocal::lib=$HOME/local)
+
+if test ! $MF_DEV
+then
+    eval $(perl -I$HOME/local/lib/perl5 -Mlocal::lib=$HOME/local)
+fi
