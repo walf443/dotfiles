@@ -1,36 +1,41 @@
 # vim:ft=zsh:
 
 # common
-LANG="ja_JP.UTF-8"
-SYSTEM_PREFIX=/opt/local/
-EDITOR=$SYSTEM_PREFIX/bin/vim
-PAGER="/$SYSTEM_PREFIX/bin/lv -c"
-CLICOLOR=\1
-PATH=~/bin:/opt/local/bin:/usr/local/bin:$PATH
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-MANPATH=$MANPATH:/$SYSTEM_PREFIX/man
+export LANG="ja_JP.UTF-8"
 
-if [ `uname` = 'Darwin' ]
+if test -e /opt/local
 then
-    PATH=$PATH:/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.2.0/bin/
+    SYSTEM_PREFIX=/opt/local
+else
+    SYSTEM_PREFIX=/usr
 fi
 
+export EDITOR=$SYSTEM_PREFIX/bin/vim
+export PAGER="$SYSTEM_PREFIX/bin/lv -c"
+export EMAIL=walf443@gmail.com
+
+export CLICOLOR=\1
+
+OPT_PATH=$HOME/bin:/opt/local/bin:/usr/local/bin
+PATH=${PATH/$OPT_PATH//}
+export PATH=$OPT_PATH:$PATH
+if [ `uname` = 'Darwin' ]
+then
+    FLEX_SDK_PATH=/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.2.0/bin/
+    PATH=${PATH/$FLEX_SDK_PATH//}
+    export PATH=$PATH:$FLEX_SDK_PATH
+fi
+
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export MANPATH=$MANPATH:$SYSTEM_PREFIX/man
+
 # zsh
-HISTFILE=$HOME/.zsh-history
-HISTSIZE=1000000
-SAVEHIST=1000000
-
-# ruby
-RUBYOPT="rubygems -Ku"
-GEM_PATH=/Library/Ruby/Gems/
-GEM_HOME=/Library/Ruby/Gems/
-RUBYLIB=$SYSTEM_PREFIX/lib/ruby/1.8/:$RUBYLIB
-
-# perl
-PERL5LIB="$HOME/site_perl/:$PERL5LIB"
+export HISTFILE=$HOME/.zsh-history
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 
 # prompt
-PROMPT="%n%# "
+export PROMPT="%n%# "
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-  PROMPT="%{[37m%}%n@${HOST%%.*}%# "
+  export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
 
