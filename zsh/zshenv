@@ -1,4 +1,4 @@
-export ZSH_CONFIG_DIR="$HOME/dotfiles/zsh"
+export ZSH_CONFIG_DIR="$HOME/project/dotfiles/zsh"
 
 # 独自パッチを保持しつづけるのもしんどいので
 # 管理下じゃないファイル1つのデフォルトで読むようにする
