@@ -17,12 +17,12 @@ export EMAIL=walf443@gmail.com
 export CLICOLOR=\1
 
 OPT_PATH=$HOME/bin:/opt/local/bin:/usr/local/bin
-PATH=${PATH/$OPT_PATH//}
+PATH=${PATH/$OPT_PATH/}
 export PATH=$OPT_PATH:$PATH
 if [ `uname` = 'Darwin' ]
 then
     FLEX_SDK_PATH=/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.2.0/bin/
-    PATH=${PATH/$FLEX_SDK_PATH//}
+    PATH=${PATH/$FLEX_SDK_PATH/}
     export PATH=$PATH:$FLEX_SDK_PATH
 fi
 
