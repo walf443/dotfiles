@@ -40,3 +40,6 @@ export PROMPT="%n%# "
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
   export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
 
+export PYTHONSTARTUP=$HOME/.pythonrc.py
+
+
