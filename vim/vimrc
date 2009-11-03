@@ -35,7 +35,6 @@ set statusline=%<%f\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v\ 
 set laststatus=2
 
 " mapping
-nnoremap , <Leader>
 nnoremap <Leader>ev  <C-w>s<C-w>j:<C-u>edit $MYVIMRC<Enter>
 nnoremap <Leader>ez  <C-w>s<C-w>j:<C-u>edit $MYZSHRC<Enter>
 nnoremap <Leader>ec  <C-w>s<C-w>j:<C-u>edit $MYCHANGELOG_MEMO<Enter>
