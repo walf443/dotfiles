@@ -10,6 +10,7 @@ source "$ZSH_CONFIG_DIR/hook.zshrc"
 
 source "$ZSH_CONFIG_DIR/env.zshrc"
 source "$ZSH_CONFIG_DIR/alias.zshrc"
+source "$ZSH_CONFIG_DIR/function.zshrc"
 
 if test ! $MF_DEV
 then
