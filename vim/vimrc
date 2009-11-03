@@ -43,8 +43,17 @@ nnoremap ,e  :execute '!' &ft ' %'<Enter>
 nnoremap <C-h>      :<C-u>help<Space>
 nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><Enter>
 
+" jump and move centor
+nnoremap n  nzz
+nnoremap N  Nzz
+
 " noremap : ;
 noremap ; :
+
+" motion
+inoremap <C-A>  <ESC>^i
+noremap <C-E>   <END>
+inoremap <C-E>  <END>
 
 inoremap <expr> ,df  strftime('%Y-%m-%d %H:%M:%S')
 inoremap <expr> ,dd  strftime('%Y-%m-%d')
@@ -62,4 +71,3 @@ command! Utf8       edit ++enc=utf8
 
 command! Jis        Iso2022jp
 command! Sjis       cp932
-
