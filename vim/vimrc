@@ -36,10 +36,11 @@ set laststatus=2
 
 " mapping
 nnoremap , <Leader>
-nnoremap ,.  :<C-u>edit $MYVIMRC<Enter>
-nnoremap ,z  :<C-u>edit $MYZSHRC<Enter>
-nnoremap ,s. :<C-u>source $MYVIMRC<Enter>
-nnoremap ,e  :execute '!' &ft ' %'<Enter>
+nnoremap <Leader>ev  <C-w>s<C-w>j:<C-u>edit $MYVIMRC<Enter>
+nnoremap <Leader>ez  <C-w>s<C-w>j:<C-u>edit $MYZSHRC<Enter>
+nnoremap <Leader>ec  <C-w>s<C-w>j:<C-u>edit $MYCHANGELOG_MEMO<Enter>
+nnoremap <Leader>s. :<C-u>source $MYVIMRC<Enter>
+nnoremap <Leader>ex  :execute '!' &ft ' %'<Enter>
 nnoremap <C-h>      :<C-u>help<Space>
 nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><Enter>
 
@@ -74,3 +75,8 @@ command! Utf8       edit ++enc=utf8
 
 command! Jis        Iso2022jp
 command! Sjis       cp932
+
+" for ftplugin/changelog.vim
+let g:changelog_timeformat = "%Y-%m-%d %H:%M:%S"
+let g:changelog_username = "Keiji Yoshimi"
+
