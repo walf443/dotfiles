@@ -1,116 +1,65 @@
-set tabstop=4
-set sw=4
-set expandtab
-filetype indent on
-set cindent
-set autoindent
-set showmode
-set showmatch
-set backspace=eol,indent,start
+" autocmd
+autocmd!
+
+" set bufname to screen's title
+autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe '!echo -n "\ek%:t\e\\"' | endif
+
+filetype plugin indent on
+syntax enable
+
+" option
 set ambiwidth=double
+set autoindent
+set background=dark
+set backspace=eol,indent,start
+set cindent
+set expandtab
+set ignorecase
+set incsearch
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
-set background=dark
- 
-if exists('&ambiwidth')
-  set ambiwidth=double
-endif
- 
-runtime $VIMRUNTIME/macros/matchit.vim
-syntax enable
- 
-" keymaps
-:map <C-A> g^
-:imap <C-A> <ESC>g^i
-:map <C-E> <END>
-:imap <C-E>  <END>
-:imap <UP> <ESC>gka
-:imap <DOWN> <ESC>gja
-:map <UP> gk
-:map <DOWN> gj
- 
-:noremap k gk
-:noremap j gj
-:vmap k gk
-:vmap j gj
- 
-:noremap n nzz
-:noremap v p
-:noremap p Nzz
- 
-map <C-z> <C-t>
-map , <Leader>
-map ,ptv <ESC>:'<,'>!perltidy<CR>
- 
-" execute filetype command with ',e'
-nmap ,e :execute '!' &ft ' %'<CR>
- 
-set laststatus=2
- 
-" status line
-function! GetB()
-  let c = matchstr(getline('.'), '.', col('.') - 1)
-  let c = iconv(c, &enc, &fenc)
-  return String2Hex(c)
-endfunction
-" :help eval-examples
-" The function Nr2Hex() returns the Hex string of a number.
-func! Nr2Hex(nr)
-  let n = a:nr
-  let r = ""
-  while n
-    let r = '0123456789ABCDEF'[n % 16] . r
-    let n = n / 16
-  endwhile
-  return r
-endfunc
-" The function String2Hex() converts each character in a string to a two
-" character Hex string.
-func! String2Hex(str)
-  let out = ''
-  let ix = 0
-  while ix < strlen(a:str)
-    let out = out . Nr2Hex(char2nr(a:str[ix]))
-    let ix = ix + 1
-  endwhile
-  return out
-endfunc
- 
-if winwidth(0) >= 120
-  set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}%y\ %F%=[%{GetB()}]\ %l,%c%V%8P
-else
-  set statusline=%<[%n]%m%r%h%w%{'['.(&fenc!=''?&fenc:&enc).':'.&ff.']'}%y\ %f%=[%{GetB()}]\ %l,%c%V%8P
-end
- 
-set wildmenu
- 
-" set tags
-if has("autochdir")
-  set autochdir
-  set tags=TAGS,tags;
-else
-endif
- 
- 
+set shiftwidth=4
+set showmatch
+set showmode
+set smartcase
+set tabstop=4
+
 " encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=iso-2022-jp,euc-jp,cp932
 set fileformats=unix,dos,mac
-set ambiwidth=double
- 
-function! AU_ReCheck_FENC()
-  if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7E]", 'n') == 0
-    let &fileencoding='utf-8'
-  end
-endfunction
-autocmd BufReadPost * call AU_ReCheck_FENC()
- 
-au! BufNewFile,BufRead *.as :set filetype=actionscript
-au! BufNewFile,BufRead *.mxml :set filetype=mxml
- 
-autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe '!echo -n "\ek%:t\e\\"' | endif
 
-let g:filetype_m = 'objc'
+" statusline
+set statusline=%<%f\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v\ %l/%L
+set laststatus=2
 
-let skk_large_jisyo = "~/Library/AquaSKK/SKK-JISYO.L"
+" mapping
+nnoremap , <Leader>
+nnoremap ,.  :<C-u>edit $MYVIMRC<Enter>
+nnoremap ,z  :<C-u>edit $MYZSHRC<Enter>
+nnoremap ,s. :<C-u>source $MYVIMRC<Enter>
+nnoremap ,e  :execute '!' &ft ' %'<Enter>
+nnoremap <C-h>      :<C-u>help<Space>
+nnoremap <C-h><C-h> :<C-u>help<Space><C-r><C-w><Enter>
+
+" noremap : ;
+noremap ; :
+
+inoremap <expr> ,df  strftime('%Y-%m-%d %H:%M:%S')
+inoremap <expr> ,dd  strftime('%Y-%m-%d')
+inoremap <expr> ,dt  strftime('%H:%M:%S')
+
+nnoremap gc `[v`]
+vnoremap gc :<C-u>normal gc<Enter>
+onoremap gc :<C-u>normal gc<Enter>
+
+" Ex Command
+command! Cp932      edit ++enc=cp932
+command! Eucjp      edit ++enc=euc-jp
+command! Iso2022jp  edit ++enc=iso-2022-jp
+command! Utf8       edit ++enc=utf8
+
+command! Jis        Iso2022jp
+command! Sjis       cp932
+

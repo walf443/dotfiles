@@ -1,3 +1,4 @@
+export MYZSHRC="$0"
 export ZSH_CONFIG_DIR="$HOME/project/dotfiles/zsh"
 
 # 独自パッチを保持しつづけるのもしんどいので
