@@ -49,6 +49,7 @@ cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
 " jump and move centor
 nnoremap n  nzz
 nnoremap N  Nzz
+set pastetoggle=<C-p>
 
 " noremap : ;
 noremap ; :
