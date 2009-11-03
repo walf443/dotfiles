@@ -1,6 +1,14 @@
 
 function memo() {
-    screen vim $MYCHANGELOG_MEMO
+    screen $EDITOR $MYCHANGELOG_MEMO
+}
+
+function zconf() {
+    screen $EDITOR $MYZSHRC
+}
+
+function vconf() {
+    screen $EDITOR ~/.vimrc
 }
 
 function gitnew() {
