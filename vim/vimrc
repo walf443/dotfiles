@@ -25,10 +25,10 @@ set smartcase
 set tabstop=4
 
 " encoding
-set encoding=utf-8
 set fileencoding=utf-8
-set fileencodings=iso-2022-jp,euc-jp,cp932
+set fileencodings=utf-8,iso-2022-jp,euc-jp,cp932
 set fileformats=unix,dos,mac
+set encoding=utf-8
 
 " statusline
 set statusline=%<%f\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v\ %l/%L

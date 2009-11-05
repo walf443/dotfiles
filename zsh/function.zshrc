@@ -11,6 +11,17 @@ function vconf() {
     screen $EDITOR ~/.vimrc
 }
 
+function conf_commit {
+    pwd=`pwd`
+    cd $HOME/project/dotfiles/
+    git commit -v -a
+    if test !$?
+    then
+        git push
+    fi
+    cd $pwd
+}
+
 function gitnew() {
     branch=$1
     shift # dummy
@@ -27,3 +38,4 @@ function gitnew() {
     fi
     git whatchanged $branch@{1}..$branch --reverse --stat $opt
 }
+
