@@ -54,6 +54,10 @@ nnoremap N  Nzz
 noremap ; :
 
 " motion
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
 inoremap <C-A>  <ESC>^i
 noremap <C-E>   <END>
 inoremap <C-E>  <END>
