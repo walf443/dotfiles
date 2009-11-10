@@ -8,28 +8,6 @@ then
     zstyle ':vcs_info:*' actionformats '%s[%b|%a]'
 fi
 
-_show_cmd_on_screen_title() {
-  local -a cmd; cmd=(${(z)2})
-  case $cmd[1] in
-    %*)
-        cmd=(builtin jobs -l $cmd[1])
-        ;;
-    *)
-        echo -n "k$cmd[1]:t\\"
-        prev=$cmd[1]
-        return
-        ;;
-  esac
-
-  local -A jt; jt=(${(kv)jobtexts})
-
-  $cmd >>(read num test
-      cmd=(${(z)${(e):-\$jt$num}})
-      echo -n "k$cmd[1]:t\\") 2>/dev/null
-
-  prev=$cmd[1]
-}
-
 _show_dirname_on_screen_title() {
   echo -ne "\ek$(basename $(pwd))\e\\"
 }
@@ -53,6 +31,23 @@ _update_rprompt
 
 if [ "$TERM" = "screen" ]; then
   preexec() {
+    local -a cmd; cmd=(${(z)2})
+    if test "$cmd[1]" = "s"
+    then
+        shift $cmd;
+    fi
+    case $cmd[1] in
+        ssh)
+            prefix=echo "$cmd[2]" | cut -d'.' -f1
+            if test "$prefix" = "192"
+            then
+                echo -ne "\ek$(echo "$cmd[2]" | cut -d'.' -f5)\e\\"
+            else
+                echo -ne "\ek${cmd[2]}\e\\"
+            fi
+            ;;
+    esac
+
     if test $USE_VCS_INFO
     then
         _set_env_vcs_stat
