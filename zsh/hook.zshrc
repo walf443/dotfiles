@@ -38,12 +38,12 @@ if [ "$TERM" = "screen" ]; then
     fi
     case $cmd[1] in
         ssh)
-            prefix=echo "$cmd[2]" | cut -d'.' -f1
+            prefix=$(echo "$cmd[2]" | cut -d'.' -f1)
             if test "$prefix" = "192"
             then
-                echo -ne "\ek$(echo "$cmd[2]" | cut -d'.' -f5)\e\\"
+                echo -ne "\ek[$(echo "$cmd[2]" | cut -d'.' -f4)]\e\\"
             else
-                echo -ne "\ek${cmd[2]}\e\\"
+                echo -ne "\ek[$cmd[2]]\e\\"
             fi
             ;;
     esac
