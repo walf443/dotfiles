@@ -83,3 +83,5 @@ command! Sjis       cp932
 let g:changelog_timeformat = "%Y-%m-%d %H:%M:%S"
 let g:changelog_username = "Keiji Yoshimi"
 
+" 対応する括弧の強調表示はウザいので消す
+let loaded_matchparen = 1
