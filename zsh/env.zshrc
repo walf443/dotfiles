@@ -25,6 +25,10 @@ then
     FLEX_SDK_PATH=/Applications/Adobe\ Flex\ Builder\ 3/sdks/3.2.0/bin/
     PATH=${PATH/$FLEX_SDK_PATH/}
     export PATH=$PATH:$FLEX_SDK_PATH
+
+    export IPHONE_PLATFORM=iPhoneOS
+    export IPHONE_VERSION=3.1.2
+    export IPHONE_SDK=/Developer/Platforms/${IPHONE_PLATFORM}.platform/Developer/SDKs/${IPHONE_PLATFORM}${IPHONE_VERSION}.sdk/System/Library/Frameworks/
 fi
 
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
