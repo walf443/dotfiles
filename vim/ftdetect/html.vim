@@ -8,7 +8,9 @@ endfunction
 function! s:FTtt2html()
     let save_cursor = getpos('.')
     call cursor(1, 1)
-    if search('\[%', 'cn') > 0
+    if search('->', 'cn' ) > 0
+        setf tmt2html
+    elseif search('\[%', 'cn') > 0
         setf tt2html
     else
         call s:FThtml()
