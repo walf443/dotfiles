@@ -27,9 +27,9 @@ syn include @perlTop syntax/perl.vim
  
 syn cluster tmtRegions contains=tmtOneLiner,tmtBlock,tmtExpression
 
-syn region tmtOneLiner matchgroup=tmtDelim start=#^%?\@!# end=#$# keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend oneline
-syn region tmtBlock matchgroup=tmtDelim start=#<%?\?# end=#%?># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
-syn region tmtExpression matchgroup=tmtDelim start=#<%?=\?# end=#%?># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
+syn region tmtOneLiner matchgroup=tmtDelim start=#^[%?]?\@!# end=#$# keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend oneline
+syn region tmtBlock matchgroup=tmtDelim start=#<[%?]?\?# end=#[%|?]?># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
+syn region tmtExpression matchgroup=tmtDelim start=#<[%|?]?=\?# end=#[%|?]?># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
  
 hi def link tmtDelim todo
  
