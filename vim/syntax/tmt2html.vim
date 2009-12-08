@@ -23,15 +23,15 @@ exec "runtime! syntax/html.vim"
 unlet! b:current_syntax
  
 "Put the perl syntax file in @perlTop
-syn include @perlTop syntax/perl.vim
+syntax include @perlTop syntax/perl.vim
  
-syn cluster tmtRegions contains=tmtOneLiner,tmtBlock,tmtExpression
+syntax cluster tmtRegions contains=tmtOneLiner,tmtBlock,tmtExpression
 
-syn region tmtOneLiner matchgroup=tmtDelim start=#^[%?]?\@!# end=#$# keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend oneline
-syn region tmtBlock matchgroup=tmtDelim start=#<[%?]?\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
-syn region tmtExpression matchgroup=tmtDelim start=#<[%?]?=\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
+syntax region tmtOneLiner matchgroup=tmtDelim start=#^[%?]?\@!# end=#$# keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend oneline
+syntax region tmtBlock matchgroup=tmtDelim start=#<[%?]?\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
+syntax region tmtExpression matchgroup=tmtDelim start=#<[%?]=\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
  
-hi def link tmtDelim todo
+highlight def link tmtDelim Delimiter
  
 let b:current_syntax = 'tmt2html'
 
