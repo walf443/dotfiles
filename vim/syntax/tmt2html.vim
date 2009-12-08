@@ -22,16 +22,5 @@ endif
 exec "runtime! syntax/html.vim"
 unlet! b:current_syntax
  
-"Put the perl syntax file in @perlTop
-syntax include @perlTop syntax/perl.vim
- 
-syntax cluster tmtRegions contains=tmtOneLiner,tmtBlock,tmtExpression
-
-syntax region tmtOneLiner matchgroup=tmtDelim start=#^[%?]?\@!# end=#$# keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend oneline
-syntax region tmtBlock matchgroup=tmtDelim start=#<[%?]?\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
-syntax region tmtExpression matchgroup=tmtDelim start=#<[%?]=\?# end=#[%?]># keepend contains=@perlTop containedin=ALLBUT,@tmtRegions keepend
- 
-highlight def link tmtDelim Delimiter
- 
-let b:current_syntax = 'tmt2html'
+exec "runtime! syntax/tmt.vim"
 
