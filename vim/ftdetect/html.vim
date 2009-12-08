@@ -1,22 +1,25 @@
-function! s:FThtml()
+" Example Code for detect *.html as tmt2html or tt2html or xhtml or html.
+
+function! s:detect_xhtml()
     if getline(1).getline(2).getline(3) =~ '\<!DOCTYPE\s\_.\sXHTML\s'
-        setf xhtml
+        setfiletype xhtml
     endif
-    setf html
+    setfiletype html
 endfunction
 
-function! s:FTtt2html()
+function! s:detect_html()
     let save_cursor = getpos('.')
     call cursor(1, 1)
     if search('->', 'cn' ) > 0
-        setf tmt2html
-    elseif search('\[%', 'cn') > 0
-        setf tt2html
+        setfiletype tmt2html
+    " XXX: if you have tt2html syntax, please uncomment it.
+    " elseif search('\[%', 'cn') > 0
+    "     setfiletype tt2html
     else
-        call s:FThtml()
+        call s:detect_xhtml()
     endif
     call setpos('.', save_cursor)
 endfunction
 
-autocmd! BufReadPost *.html call s:FTtt2html()
+autocmd! BufReadPost *.html call s:detect_html()
 
