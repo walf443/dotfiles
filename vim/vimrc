@@ -14,7 +14,7 @@ set background=dark
 set backspace=eol,indent,start
 set cindent
 set expandtab
-set ignorecase
+" set ignorecase
 set incsearch
 set list
 set listchars=tab:>-,trail:-,nbsp:%,extends:>,precedes:<
