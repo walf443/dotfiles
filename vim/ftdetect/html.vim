@@ -12,9 +12,8 @@ function! s:detect_html()
     call cursor(1, 1)
     if search('->', 'cn' ) > 0
         setfiletype tmt2html
-    " XXX: if you have tt2html syntax, please uncomment it.
-    " elseif search('\[%', 'cn') > 0
-    "     setfiletype tt2html
+    elseif search('\[%', 'cn') > 0
+        setfiletype tt2html
     else
         call s:detect_xhtml()
     endif
