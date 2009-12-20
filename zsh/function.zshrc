@@ -42,10 +42,16 @@ function gitnew() {
 function sshs() {
     local host=$1
 
-    local screen_title="$( get_ipv4_tail $host )"
+    local host_without_user="$( echo "$host" | sed -r -e 's/^(.+)@(.+)$/\2/' )"
+    if test "$host_without_user" = ""
+    then
+        host_without_user="$host"
+    fi
+
+    local screen_title="$( get_ipv4_tail $host_without_user )"
     if test "$screen_title" = ""
     then
-        screen_title=$( echo $host | sed -r -e 's/^(.+@)?(.+)\.(.+)$/\2/')
+        screen_title=$( echo $host_without_user | sed -r -e 's/(.+)\.(local|intra)$/\1/')
     fi
 
     if test "$screen_title" = ""
