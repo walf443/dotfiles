@@ -39,3 +39,26 @@ function gitnew() {
     git whatchanged $branch@{1}..$branch --reverse --stat $opt
 }
 
+function sshs() {
+    local host=$1
+
+    local screen_title="$( get_ipv4_tail $host )"
+    if test "$screen_title" = ""
+    then
+        screen_title=$( echo $host | sed -r -e 's/^(.+@)?(.+)\.(.+)$/\2/')
+    fi
+
+    if test "$screen_title" = ""
+    then
+        screen ssh $host
+    else
+        screen -t "[$screen_title]" ssh $host
+    fi
+}
+
+function get_ipv4_tail () {
+    local ip=$1
+    local tail=$( echo $ip | grep 192.168 | sed  -r -e 's/192\.168\.([0-9]+)\.([0-9]+)/\2/' )
+    echo $tail
+}
+
