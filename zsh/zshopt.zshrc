@@ -6,6 +6,8 @@ setopt mark_dirs
 setopt auto_pushd
 setopt list_packed
 setopt prompt_subst
+setopt hist_ignore_all_dups
+setopt hist_save_nodups
 autoload -U colors
 colors
 
