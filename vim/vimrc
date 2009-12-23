@@ -85,3 +85,6 @@ let g:changelog_username = "Keiji Yoshimi"
 
 " 対応する括弧の強調表示はウザいので消す
 let loaded_matchparen = 1
+
+let g:ref_phpmanual_path = $HOME . "/project/dotfiles/vim/ref/php_manual_ja_html/"
+
