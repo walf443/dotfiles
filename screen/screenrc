@@ -8,7 +8,7 @@ defscrollback 10000
 
 # status line
 hardstatus ignore "%w | %h"
-hardstatus alwayslastline "[%02c] %`%-w%{=b bw}%n %t%{-}%+w"
+hardstatus alwayslastline " %`%-w%{=b bw}%n %t%{-}%+w"
 caption always "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d %{=b wb}%c"
 
 # resize
