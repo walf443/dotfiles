@@ -10,7 +10,7 @@ endfunction
 function! s:detect_html()
     let save_cursor = getpos('.')
     call cursor(1, 1)
-    if search('->', 'cn' ) > 0
+    if search('[a-z]->', 'cn' ) > 0
         setfiletype tmt2html
     elseif search('\[%', 'cn') > 0
         setfiletype tt2html
