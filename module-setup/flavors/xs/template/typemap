@@ -1,0 +1,10 @@
+TYPEMAP
+YourType*      T_YOUR_TYPE
+
+INPUT
+T_YOUR_TYPE
+    $var = XS_STATE(YourType*, $arg);
+
+OUTPUT
+T_YOUR_TYPE
+    XS_STRUCT2OBJ($arg, "[% module %]", $var);

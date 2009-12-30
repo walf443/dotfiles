@@ -1,4 +1,14 @@
-setup: $(HOME)/.zshenv $(HOME)/.zshrc $(HOME)/.zshrc_custom $(HOME)/.gitconfig $(HOME)/.screenrc $(HOME)/.vimrc $(HOME)/.vim/vimrc
+setup: $(HOME)/.zshenv \
+	   $(HOME)/.zshrc \
+	   $(HOME)/.zshrc_custom \
+	   $(HOME)/.gitconfig \
+	   $(HOME)/.screenrc \
+	   $(HOME)/.vimrc \
+	   $(HOME)/.vim/vimrc \
+	   $(HOME)/.irbrc \
+	   $(HOME)/.pythonrc.py \
+	   $(HOME)/.module-setup
+
 
 $(HOME)/.zshenv:
 	ln -s `pwd`/zsh/zshenv $(HOME)/.zshenv
@@ -26,6 +36,9 @@ $(HOME)/.irbrc:
 
 $(HOME)/.pythonrc:
 	ln -sf `pwd`/python/pythonrc.py $(HOME)/.pythonrc.py
+
+$(HOME)/.module-setup:
+	ln -sf `pwd`/module-setup $(HOME)/.module-setup
 
 phpref:
 	wget http://jp.php.net/get/php_manual_ja.tar.gz/from/this/mirror
