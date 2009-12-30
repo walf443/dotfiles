@@ -1,13 +1,30 @@
-setup: git/gitconfig zsh/zshenv
-	ln -sf `pwd`/zsh/zshenv $(HOME)/.zshenv
+setup: $(HOME)/.zshenv $(HOME)/.zshrc $(HOME)/.zshrc_custom $(HOME)/.gitconfig $(HOME)/.screenrc $(HOME)/.vimrc $(HOME)/.vim/vimrc
+
+$(HOME)/.zshenv:
+	ln -s `pwd`/zsh/zshenv $(HOME)/.zshenv
+
+$(HOME)/.zshrc:
 	touch  $(HOME)/.zshrc
-	touch  $(HOME)/.zshrc_custom
-	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig
+
+$(HOME)/.zshrc_custom:
+	touch $(HOME)/.zshrc_custom
+
+$(HOME)/.gitconfig:
+	ln -sf `pwd`/git/config $(HOME)/.gitconfig
+
+$(HOME)/.screenrc:
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
+
+$(HOME)/.vimrc:
 	ln -sf `pwd`/vim/vimrc $(HOME)/.vimrc
+
+$(HOME)/.vim/vimrc:
 	ln -sf `pwd`/vim $(HOME)/.vim
-	ln -sf `pwd`/vimperator/vimperatorrc $(HOME)/.vimperatorrc
+
+$(HOME)/.irbrc:
 	ln -sf `pwd`/irb/irbrc $(HOME)/.irbrc
+
+$(HOME)/.pythonrc:
 	ln -sf `pwd`/python/pythonrc.py $(HOME)/.pythonrc.py
 
 phpref:
