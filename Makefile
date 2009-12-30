@@ -4,7 +4,7 @@ setup: $(HOME)/.zshenv \
 	   $(HOME)/.gitconfig \
 	   $(HOME)/.screenrc \
 	   $(HOME)/.vimrc \
-	   $(HOME)/.vim/vimrc \
+	   $(HOME)/.vim \
 	   $(HOME)/.irbrc \
 	   $(HOME)/.pythonrc.py \
 	   $(HOME)/.module-setup
@@ -28,7 +28,7 @@ $(HOME)/.screenrc:
 $(HOME)/.vimrc:
 	ln -sf `pwd`/vim/vimrc $(HOME)/.vimrc
 
-$(HOME)/.vim/vimrc:
+$(HOME)/.vim:
 	ln -sf `pwd`/vim $(HOME)/.vim
 
 $(HOME)/.irbrc:
