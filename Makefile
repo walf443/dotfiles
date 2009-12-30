@@ -45,3 +45,4 @@ phpref:
 	tar xvzf php_manual_ja.tar.gz
 	test -e vim/ref/php_manual_ja_html && rm -rf vim/ref/php_manual_ja_html/
 	mv html vim/ref/php_manual_ja_html
+
