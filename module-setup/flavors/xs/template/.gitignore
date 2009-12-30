@@ -11,4 +11,6 @@ MANIFEST.bak
 *.sw[po]
 *.c
 *.bs
+*.xs
+!*.mt.xs
 ppport.h
