@@ -19,7 +19,7 @@ sub render_mt_hack {
     render_mt $src, $dst;
 }
 
-render_mt_hack '[% module %].xs.mt' => '[% module %].xs';
+render_mt_hack '[% module %].mtxs' => '[% module %].xs';
 
 cc_warnings;
 use_ppport 3.19;
