@@ -12,5 +12,4 @@ MANIFEST.bak
 *.c
 *.bs
 *.xs
-!*.mt.xs
 ppport.h
