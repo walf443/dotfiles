@@ -40,6 +40,15 @@ $(HOME)/.pythonrc:
 $(HOME)/.module-setup:
 	ln -sf `pwd`/module-setup $(HOME)/.module-setup
 
+maketags: vim/tags/perlapi.tags \
+	vim/tags/ppport.tags
+
+vim/tags/perlapi.tags:
+	perl vim/tags/make_perlapi_tags.pl > vim/tags/perlapi.tags
+
+vim/tags/ppport.tags:
+	ctags -f vim/tags/ppport.tags --language-force=c `perldoc -ml Devel::PPPort`
+
 phpref:
 	wget http://jp.php.net/get/php_manual_ja.tar.gz/from/this/mirror
 	tar xvzf php_manual_ja.tar.gz
