@@ -1,4 +1,9 @@
 use strict;
-use Test::More tests => 1;
+use Test::LoadAllModules;
 
-BEGIN { use_ok '[% module %]' }
+BEGIN {
+    all_uses_ok(
+        search_path => "[% module %]",
+        except => [],
+    );
+}
