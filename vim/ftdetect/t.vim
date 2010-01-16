@@ -1,1 +1,1 @@
-autocmd! BufReadPost *.t setf perl
+autocmd! BufNewFile,BufReadPost *.t setf perl
