@@ -1,5 +1,5 @@
 " A ref source for perldoc.
-" Version: 0.1.2
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -22,8 +22,9 @@ endfunction
 
 
 function! ref#perldoc#get_body(query)  " {{{2
-  let cmdarg = ['-T']
+  let cmdarg = '-T'
   let q = matchstr(a:query, '\v%(^|\s)\zs[^-]\S*')
+  let func = a:query =~# '-f\>'
 
   let cand = s:appropriate_list(a:query)
   if index(cand, q) < 0
@@ -34,15 +35,19 @@ function! ref#perldoc#get_body(query)  " {{{2
     return list
   endif
 
-  if a:query =~# '-f\>' || index(s:list('modules') + s:list('basepod'), q) < 0
-    let cmdarg += ['-f']
-  elseif a:query =~# '-m\>'
-    let cmdarg += ['-m']
+  if func || index(s:list('modules') + s:list('basepod'), q) < 0
+    let cmdarg = '-T -f'
   endif
 
-  let cmdarg += ['-o', 'text']
-  let res = ref#system((type(g:ref_perldoc_cmd) == type('') ?
-  \   split(g:ref_perldoc_cmd, '\s\+') : g:ref_perldoc_cmd) + cmdarg + [q])
+  " Drop the stderr.
+  let save_srr = &shellredir
+  let &shellredir = '>%s'
+  try
+    let res = system(printf('%s -o text %s %s',
+    \                    g:ref_perldoc_cmd ,cmdarg ,q))
+  finally
+    let &shellredir = save_srr
+  endtry
 
   if res == ''
     throw printf('No documentation found for "%s".', q)
@@ -194,8 +199,8 @@ endfunction
 
 function! s:basepod_list()
   let basepods = []
-  let base = ref#system(['perl', '-MConfig', '-e',
-  \                      'print $Config{installprivlib}'])
+  let base = system('perl -MConfig -e ' .
+  \                 shellescape('print $Config{installprivlib}'))
   for dir in ['pod', 'pods']
     if filereadable(printf('%s/%s/perl.pod', base, dir))
       let base .= '/' . dir
@@ -214,12 +219,12 @@ endfunction
 
 
 function! s:modules_list()
-  let inc = ref#system(['perl', '-e', 'print join('':'', @INC)'])
+  let inc = system('perl -e ' . shellescape('print join('':'', @INC)'))
   let sep = '[/\\]'
   let files = {}
   let modules = []
   for i in split(inc, ':')
-    let f = split(glob(i . '/**/*.pm', 0), "\n")
+    let f = split(glob(i . '/**/*.pm'), "\n")
     call filter(f, '!has_key(files, v:val)')
     for file in f
       let files[file] = 1
@@ -235,7 +240,7 @@ endfunction
 
 
 function! s:func_list()
-  let doc = ref#system('perldoc -u perlfunc')
+  let doc = system('perldoc -u perlfunc')
   let i = 0
   let funcs = []
   while 1

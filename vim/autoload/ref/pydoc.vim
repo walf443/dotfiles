@@ -1,5 +1,5 @@
 " A ref source for pydoc.
-" Version: 0.1.2
+" Version: 0.1.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -26,7 +26,8 @@ function! ref#pydoc#get_body(query)  " {{{2
   if a:query == ''
     let matchedlist = 1
   else
-    let content = ref#system(s:to_a(g:ref_pydoc_cmd) + s:to_a(a:query))
+    let args = join(map(split(a:query), 'shellescape(v:val)'), ' ')
+    let content = system(g:ref_pydoc_cmd . ' ' . args)
     if content =~ 'no Python documentation found'
       let matchedlist = 1
     endif
@@ -38,7 +39,7 @@ function! ref#pydoc#get_body(query)  " {{{2
       throw split(content, "\n")[0]
     endif
     if len(list) == 1
-      return ref#system(s:to_a(g:ref_pydoc_cmd) + list)
+      return system(g:ref_pydoc_cmd . ' ' . shellescape(list[0]))
     endif
     return list
   endif
@@ -55,10 +56,10 @@ endfunction
 
 
 function! ref#pydoc#complete(query)  " {{{2
-  let cmd = s:to_a(g:ref_pydoc_cmd) + ['-k', '.']
+  let cmd = g:ref_pydoc_cmd . ' -k .'
   let mapexpr = 'matchstr(v:val, "^[[:alnum:]._]*")'
   let all_list = ref#cache('pydoc', 'list',
-  \                    printf('map(split(ref#system(%s), "\n"), %s)',
+  \                    printf('map(split(system(%s), "\n"), %s)',
   \                           string(cmd), string(mapexpr)))
   let list = filter(copy(all_list), 'v:val =~ "^\\V" . a:query')
   if !empty(list)
@@ -211,14 +212,6 @@ function! s:syntax(type)
 
   let b:current_syntax = 'ref-pydoc'
 endfunction
-
-
-
-function! s:to_a(expr)
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
-endfunction
-
 
 
 

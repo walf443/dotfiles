@@ -1,6 +1,6 @@
 *ref-refe.txt*	A ref source for ReFe.
 
-Version: 0.1.0
+Version: 0.0.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -30,13 +30,12 @@ CUSTOMIZING					*ref-refe-customizing*
 
 g:ref_refe_cmd					*g:ref_refe_cmd*
 			Specifies the refe command.
-			The default value is "refe" if it is executable.
-			Otherwise, it is "".
+			The default value is "refe".
 
 g:ref_refe_encoding				*g:ref_refe_encoding*
 			Specifies the encoding of output of the refe command.
-			Conversion is not done when this variable is empty.
-			The default value is 'termencoding'.
+			Conversion is not done when this variable was not
+			defined.
 
 
 ==============================================================================
@@ -47,9 +46,6 @@ BUGS						*ref-refe-bugs*
 
 ==============================================================================
 CHANGELOG					*ref-refe-changelog*
-
-0.1.0	2010-01-21
-	- Using |ref#system()|.
 
 0.0.2	2009-08-20
 	- Improved the behavior for |ku-ref|.

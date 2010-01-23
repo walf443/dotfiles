@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.1.0
+" Version: 0.0.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -7,39 +7,29 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-
-
 if !exists('g:ref_refe_cmd')
-  let g:ref_refe_cmd = executable('refe') ? 'refe' : ''
-endif
-
-if !exists('g:ref_refe_encoding')
-  let g:ref_refe_encoding = &termencoding
+  let g:ref_refe_cmd = 'refe'
 endif
 
 
 
 function! ref#refe#available()  " {{{2
-  return g:ref_refe_cmd != ''
+  return executable(g:ref_refe_cmd)
 endfunction
 
 
 
 function! ref#refe#get_body(query)  " {{{2
-  let content = ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:query))
-  let err = ref#last_stderr()
-  if err =~# '\v' . join(['^not match: .', '^unmatched .',
+  let args = join(map(split(a:query), 'shellescape(v:val)'), ' ')
+  let content = system(g:ref_refe_cmd . ' ' . args)
+  if content =~ '\v' . join(['^not match: .', '^unmatched .',
     \ '^premature end of regular expression:',
     \ '^invalid regular expression;'], '|')
-    throw matchstr(err, '^.\+\ze\n')
+    throw matchstr(content, '^.\+\ze\n')
   endif
 
-  if exists('g:ref_refe_encoding') &&
-  \  !empty(g:ref_refe_encoding) && g:ref_refe_encoding != &encoding
-    let converted = iconv(content, g:ref_refe_encoding, &encoding)
-    if converted != ''
-      let content = converted
-    endif
+  if exists('g:ref_refe_encoding')
+    let content = iconv(content, g:ref_refe_encoding, &encoding)
   endif
 
   return content
@@ -49,9 +39,9 @@ endfunction
 
 function! ref#refe#opened(query)  " {{{2
   let type = s:detect_type()
-  if type ==# 'list'
+  if type == 'list'
     silent! %s/ /\r/ge
-  elseif type ==# 'class'
+  elseif type == 'class'
     silent! %s/[^[:return:]]\n\zs\ze----/\r/ge
   endif
   call s:syntax(type)
@@ -60,8 +50,7 @@ endfunction
 
 
 function! ref#refe#complete(query)  " {{{2
-  return split(ref#system(s:to_a(g:ref_refe_cmd) +
-  \            ['-l', '-s'] + s:to_a(a:query)), "\n")
+  return split(system(g:ref_refe_cmd . ' -l -s ' . a:query), "\n")
 endfunction
 
 
@@ -74,12 +63,12 @@ endfunction
 
 function! ref#refe#get_keyword()  " {{{2
   let pos = getpos('.')[1:]
-  if &l:filetype ==# 'ref'
+  if &l:filetype == 'ref'
     let type = s:detect_type()
-    if type ==# 'list'
+    if type == 'list'
       return getline(pos[0])
     endif
-    if type ==# 'class'
+    if type == 'class'
       if getline('.') =~ '^----'
         return ''
       endif
@@ -105,6 +94,7 @@ endfunction
 
 function! ref#refe#leave()
   syntax clear
+  unlet! b:current_syntax
 endfunction
 
 
@@ -134,17 +124,18 @@ function! s:syntax(type)  " {{{2
 
   syntax clear
 
+  unlet! b:current_syntax
   syntax include @refRefeRuby syntax/ruby.vim
 
-  if a:type ==# 'list'
+  if a:type == 'list'
     syntax match refRefeClassOrMethod '^.*$' contains=@refRefeClassSepMethod
-  elseif a:type ==# 'class'
+  elseif a:type == 'class'
     syntax region refRefeRubyCodeBlock start="^  " end="$" contains=@refRefeRuby
     syntax region refRefeClass matchgroup=refRefeLine start="^====" end="====$" keepend oneline
     syntax region refRefeMethods start="^---- \w* methods .*----$" end="^$" fold contains=refRefeMethod,refRefeMethodHeader
     syntax match refRefeMethod '\S\+' contained
     syntax region refRefeMethodHeader matchgroup=refRefeLine start="^----" end="----$" keepend oneline contained
-  elseif a:type ==# 'method'
+  elseif a:type == 'method'
     syntax region refRefeRubyCodeBlock start="^      " end="$" contains=@refRefeRuby
     syntax match refRefeClassOrMethod '\%1l.*$' contains=@refRefeClassSepMethod
     syntax region refRefeRubyCodeInline matchgroup=refRefeLine start="^---" end="$" contains=@refRefeRuby oneline
@@ -167,13 +158,6 @@ function! s:syntax(type)  " {{{2
   highlight default link refRefeCommonMethod rubyFunction
 
   let b:current_syntax = 'ref-refe-' . a:type
-endfunction
-
-
-
-function! s:to_a(expr)
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
 endfunction
 
 
