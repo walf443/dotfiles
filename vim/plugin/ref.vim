@@ -1,10 +1,10 @@
 " Integrated reference viewer.
-" Version: 0.1.0
+" Version: 0.1.2
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
 
-if exists('g:loaded_ref') || v:version < 700
+if exists('g:loaded_ref')
   finish
 endif
 let g:loaded_ref = 1
