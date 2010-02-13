@@ -20,7 +20,7 @@ $(HOME)/.zshrc_custom:
 	touch $(HOME)/.zshrc_custom
 
 $(HOME)/.gitconfig:
-	ln -sf `pwd`/git/config $(HOME)/.gitconfig
+	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig
 
 $(HOME)/.screenrc:
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
@@ -34,7 +34,7 @@ $(HOME)/.vim:
 $(HOME)/.irbrc:
 	ln -sf `pwd`/irb/irbrc $(HOME)/.irbrc
 
-$(HOME)/.pythonrc:
+$(HOME)/.pythonrc.py:
 	ln -sf `pwd`/python/pythonrc.py $(HOME)/.pythonrc.py
 
 $(HOME)/.module-setup:
