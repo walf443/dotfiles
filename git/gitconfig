@@ -7,6 +7,7 @@
   di = diff
   df = diff --no-prefix
   rb = rebase
+  gerp = grep
   wt = whatchanged --stat
   svf = svn fetch
   svr = svn rebase
