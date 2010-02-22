@@ -11,7 +11,7 @@
   wt = whatchanged --stat
   svf = svn fetch
   svr = svn rebase
-  svd = svn dcommit
+  svd = svn dcommit --rmdir
   new = whatchanged HEAD@{1}..HEAD --reverse --stat
 
 [color]
