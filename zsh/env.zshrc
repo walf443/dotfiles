@@ -46,4 +46,4 @@ export PROMPT="%n%# "
 
 export PYTHONSTARTUP=$HOME/.pythonrc.py
 
-
+stty stop undef
