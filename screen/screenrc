@@ -11,6 +11,7 @@ hardstatus ignore "%w | %h"
 hardstatus alwayslastline " %`%-w%{=b bw}%n %t%{-}%+w"
 caption always "%{= wk} %-w%{=bu dr}%n %t%{-}%+w %= %{=b wb}%y/%m/%d %{=b wb}%c"
 
+
 # resize
 bind r eval 'echo "Resize window"' 'command -c resize'
 bind -c resize ^] command
@@ -26,4 +27,8 @@ bind p eval 'prev' 'command -c navi'
 bind -c navi p eval 'prev' 'command -c navi'
 bind k eval 'prev' 'command -c navi'
 bind -c navi k eval 'prev' 'command -c navi'
+
+# escape o押したあとにoを押すたびにtoggle
+bind o eval 'other' 'command -c toggle'
+bind -c toggle o eval 'other' 'command -c toggle'
 
