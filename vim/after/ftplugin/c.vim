@@ -1,2 +1,3 @@
 " ref.vimを使ってること前提
-:call ref#detect#register('c', 'man')
+call ref#register_detection('c', 'man')
+call ref#register_detection('cpp', 'man')
