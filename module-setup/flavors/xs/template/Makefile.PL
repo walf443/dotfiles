@@ -1,6 +1,7 @@
 use inc::Module::Install;
 use Module::Install::XSUtil;
 use Module::Install::MicroTemplate;
+use Module::Install::Repository;
 
 name '[% dist %]';
 all_from 'lib/[% module_unix_path %].pm';
@@ -41,5 +42,7 @@ postamble(<<END_POSTAMBLE);
 
 
 END_POSTAMBLE
+
+auto_set_repository;
 
 WriteAll;
