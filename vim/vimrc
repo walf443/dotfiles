@@ -2,7 +2,7 @@
 autocmd!
 
 " set bufname to screen's title
-autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe '!echo -n "\ek%:t\e\\"' | endif
+autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe printf('!echo -n "\ek%%:t[%d]\e\\"', winnr("$")) | endif
 
 filetype plugin indent on
 syntax enable
