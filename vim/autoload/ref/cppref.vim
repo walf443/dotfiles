@@ -1,4 +1,4 @@
-" A ref source for alc.
+" A ref source for cppref
 " Version: 0.2.0
 " Author : walf443 <walf443 at gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
