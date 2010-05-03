@@ -49,9 +49,6 @@ cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
 nnoremap n  nzz
 nnoremap N  Nzz
 
-" noremap : ;
-noremap ; :
-
 " motion
 noremap j gj
 noremap k gk
