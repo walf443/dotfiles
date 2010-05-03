@@ -65,8 +65,13 @@ function! s:syntax(query)
     if exists('b:current_syntax') && b:current_syntax == 'ref-cppref'
         return
     endif
-
     syntax clear
+    unlet! b:current_syntax
+
+    syntax include @refCpp syntax/cpp.vim
+    syntax region cppHereDoc    matchgroup=cppStringStartEnd start=+^\s\s\s+ end=+$+ contains=@refCpp
+
+    let b:current_syntax = 'ref-cppref'
 endfunction
 
 function! ref#cppref#define()
