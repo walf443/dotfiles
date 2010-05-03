@@ -19,7 +19,16 @@ function! s:source.available()
 endfunction
 
 function! s:source.get_body(query)
-    return ref#system("cppref " . a:query).stdout
+    let res =  ref#system("cppref " . a:query).stdout
+    return s:filter(res)
+endfunction
+
+function! s:filter(body)
+    " 目次に遭遇したときにjumpできるように置換してやる
+    "  ex.) ● std >> deqeue >> push_back
+    "   ->  -  std >> deqeue::push_back
+    let res = substitute(a:body, "• \\([^\n]*\\) >> ", "- \\1::", "g")
+    return res
 endfunction
 
 function! s:source.opened(query)
@@ -28,6 +37,14 @@ endfunction
 
 function! s:source.leave()
     syntax clear
+endfunction
+
+function! s:source.get_keyword()
+    let isk = &l:iskeyword
+    setlocal isk& isk+=:
+    let kwd = expand('<cword>')
+    let &l:iskeyword = isk
+    return kwd
 endfunction
 
 function! s:syntax(query)
