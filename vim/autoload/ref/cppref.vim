@@ -28,6 +28,7 @@ function! s:filter(body)
     "  ex.) ● std >> deqeue >> push_back
     "   ->  -  std >> deqeue::push_back
     let res = substitute(a:body, "• \\([^\n]*\\) >> ", "- \\1::", "g")
+
     return res
 endfunction
 
@@ -43,6 +44,19 @@ function! s:source.get_keyword()
     let isk = &l:iskeyword
     setlocal isk& isk+=:
     let kwd = expand('<cword>')
+    if exists("b:ref_history_pos")
+        if match(kwd, "::") == -1
+            let buf_name = b:ref_history[b:ref_history_pos][1]
+            if match(buf_name, "stl::\\(.\\+\\)") == -1 " stl::vectorみたいなのだけうまくいかないので特別扱い
+                let base_class = substitute(buf_name, "^\\([^:]\\+\\)::\\(.*\\)", "\\1", "")
+            else
+                let base_class = substitute(buf_name, "stl::\\(.\\+\\)", "\\1", "")
+            endif
+            if base_class != ""
+                let kwd = base_class . "::" . kwd
+            endif
+        endif
+    endif
     let &l:iskeyword = isk
     return kwd
 endfunction
