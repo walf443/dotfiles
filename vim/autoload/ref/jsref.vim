@@ -68,8 +68,9 @@ function! s:syntax(query)
     syntax clear
     unlet! b:current_syntax
 
-    syntax include @refCpp syntax/javascript.vim
-    syntax region jsHereDoc    matchgroup=jsStringStartEnd start=+^\s\s\s+ end=+$+ contains=@refCpp
+    syntax include @refJs syntax/javascript.vim
+    syntax region jsHereDoc    matchgroup=jsStringStartEnd start=+\n\(var\s\)\@=+ end=+^$+ contains=@refJs
+    syntax region jsHereDoc    matchgroup=jsStringStartEnd start=+^\(.*\s=\s\)\@=+ end=+^$+ contains=@refJs
 
     let b:current_syntax = 'ref-jsref'
 endfunction
