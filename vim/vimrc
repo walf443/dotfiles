@@ -40,7 +40,7 @@ nnoremap <Leader>ez  <C-w>s:<C-u>edit $MYZSHRC<Enter>
 nnoremap <Leader>ec  <C-w>s:<C-u>edit $MYCHANGELOG_MEMO<Enter>
 nnoremap <Leader>s. :<C-u>source $MYVIMRC<Enter>
 nnoremap <Leader>ex  :execute '!' &ft ' %'<Enter>
-nnoremap <C-h>      :<C-u>Ref<Space>
+nnoremap <C-h>      :<C-u>execute "Ref " . ref#detect() . " "<Left>
 
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
