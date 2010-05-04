@@ -72,6 +72,9 @@ function! s:syntax(query)
     syntax region jsHereDoc    matchgroup=jsStringStartEnd start=+\n\(var\s\)\@=+ end=+^$+ contains=@refJs
     syntax region jsHereDoc    matchgroup=jsStringStartEnd start=+^\(.*\s=\s\)\@=+ end=+^$+ contains=@refJs
 
+    syntax region jsrefKeyword  matchgroup=jsrefKeyword start=+^\(Summary$\|Syntax$\|Parameters$\|Description$\|Properties$\|Methods$\|Examples$\|See\sAlso$\)\@=+ end=+$+
+    highlight def link jsrefKeyword Title
+
     let b:current_syntax = 'ref-jsref'
 endfunction
 
