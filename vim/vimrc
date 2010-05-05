@@ -23,6 +23,7 @@ set showmatch
 set showmode
 set smartcase
 set tabstop=4
+set splitright
 
 " encoding
 set fileencoding=utf-8
