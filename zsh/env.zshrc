@@ -10,7 +10,7 @@ else
     SYSTEM_PREFIX=/usr
 fi
 
-export MYSQL_PS1='([32m\u[00m@[33m\h[00m) [34m[\d][00m > '
+# export MYSQL_PS1='[34m[\d][00m > '
 
 export EDITOR=$SYSTEM_PREFIX/bin/vim
 export PAGER="$SYSTEM_PREFIX/bin/lv -c"
