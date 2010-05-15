@@ -8,7 +8,7 @@ iabbrev strict, use strict;<CR>use warnings;<CR><C-R>=Eatchar('\s')<CR>
 " for sledge
 iabbrev r, $self->r-><C-R>=Eatchar('\s')<CR>
 iabbrev rd, return $self->redirect("")<Left><Left><C-R>=Eatchar('\s')<CR>
-iabbrev rpa, $self->r->param("")<Left><Left><C-R>=Eatchar('\s')<CR>
+iabbrev rp, $self->r->param("")<Left><Left><C-R>=Eatchar('\s')<CR>
 iabbrev st, $self->stash->{}<Left><C-R>=Eatchar('\s')<CR>
 
 " for container
