@@ -3,6 +3,7 @@ set dictionary+=~/.vim/dict/perl.dict
 iabbrev self, my ($self, ) = @_;<CR><C-R>=Eatchar('\s')<CR>
 iabbrev class, my ($class, ) = @_;<CR><C-R>=Eatchar('\s')<CR>
 iabbrev pkg, package ;<CR>use strict;<CR>use warnings;<Up><Up><End><Left>
+iabbrev strict, use strict;<CR>use warnings;<CR><C-R>=Eatchar('\s')<CR>
 
 " for sledge
 iabbrev r, $self->r-><C-R>=Eatchar('\s')<CR>
