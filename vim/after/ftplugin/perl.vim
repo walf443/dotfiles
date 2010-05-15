@@ -19,3 +19,5 @@ iabbrev ctds, container('db_slave')-><C-R>=Eatchar('\s')<CR>
 iabbrev ctmo, container('mogile')-><C-R>=Eatchar('\s')<CR>
 iabbrev ctmk, container('mogile_key')-><C-R>=Eatchar('\s')<CR>
 
+" testing
+iabbrev subtest, subtest "" => sub {<CR><CR>done_testing;<CR>};<Up><Up><Up><Home><Right><Right><Right><Right><Right><Right><Right><Right><Right><C-R>=Eatchar('\s')<CR>
