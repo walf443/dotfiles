@@ -108,3 +108,7 @@ let g:user_zen_settings = {
             \        'extends' : 'html',
             \    },
             \}
+
+let g:vimfiler_as_default_explorer = 1
+
+
