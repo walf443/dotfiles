@@ -17,3 +17,4 @@ autoload -U compinit ; compinit
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
 compinit
+compdef _screen tscreen
