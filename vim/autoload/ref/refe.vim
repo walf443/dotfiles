@@ -1,5 +1,5 @@
 " A ref source for ReFe.
-" Version: 0.3.1
+" Version: 0.4.0
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -28,7 +28,7 @@ endif
 let s:source = {'name': 'refe'}  " {{{1
 
 function! s:source.available()  " {{{2
-  return len(g:ref_refe_cmd)
+  return !empty(g:ref_refe_cmd)
 endfunction
 
 
@@ -85,7 +85,7 @@ endfunction
 
 function! s:source.complete(query)  " {{{2
   let option = s:refe_version() == 2 ? ['-l'] : ['-l', '-s']
-  return split(s:refe(option + s:to_a(a:query)).stdout, "\n")
+  return split(s:refe(option + ref#to_list(a:query)).stdout, "\n")
 endfunction
 
 
@@ -100,7 +100,7 @@ function! s:source.get_keyword()  " {{{2
   let id = '\v\w+[!?]?'
   let pos = getpos('.')[1:]
 
-  if &l:filetype ==# 'ref'
+  if &l:filetype ==# 'ref-refe'
     let [type, name] = s:detect_type()
 
     if type ==# 'list'
@@ -120,7 +120,7 @@ function! s:source.get_keyword()  " {{{2
     endif
 
     if s:refe_version() == 2
-      let kwd = s:get_word_on_cursor('\[\[\zs.\{-}\ze\]\]')
+      let kwd = ref#get_text_on_cursor('\[\[\zs.\{-}\ze\]\]')
 
       if kwd != ''
         if kwd =~# '^man:'
@@ -165,7 +165,7 @@ function! s:source.get_keyword()  " {{{2
 
         " To use the column of character base.
         let col = len(substitute(getline('.')[: col('.') - 2], '.', '.', 'g'))
-        let res = ref#system(s:to_a(g:ref_refe_rsense_cmd) +
+        let res = ref#system(ref#to_list(g:ref_refe_rsense_cmd) +
         \ ['type-inference', '--file=' . file,
         \ printf('--location=%s:%s', line('.'), col)])
         let type = matchstr(res.stdout, '^type: \zs\S\+\ze\n')
@@ -177,7 +177,7 @@ function! s:source.get_keyword()  " {{{2
         if type != ''
           if is_call
             call setpos('.', pos)
-            let type .= (is_class ? '.' : '#') . s:get_word_on_cursor(id)
+            let type .= (is_class ? '.' : '#') . ref#get_text_on_cursor(id)
           endif
 
           return type
@@ -194,17 +194,11 @@ function! s:source.get_keyword()  " {{{2
   endif
 
   let class = '\v\u\w*%(::\u\w*)*'
-  let kwd = s:get_word_on_cursor(class)
+  let kwd = ref#get_text_on_cursor(class)
   if kwd != ''
     return kwd
   endif
-  return s:get_word_on_cursor(class . '%([#.]' . id . ')?|' . id)
-endfunction
-
-
-
-function! s:source.leave()  " {{{2
-  syntax clear
+  return ref#get_text_on_cursor(class . '%([#.]' . id . ')?|' . id)
 endfunction
 
 
@@ -328,33 +322,8 @@ endfunction
 
 
 
-function! s:get_word_on_cursor(pat)  " {{{2
-  let line = getline('.')
-  let pos = col('.')
-  let s = 0
-  while s < pos
-    let [s, e] = [match(line, a:pat, s), matchend(line, a:pat, s)]
-    if s < 0
-      break
-    elseif s <= pos && pos <= e
-      return line[s : e - 1]
-    endif
-    let s += 1
-  endwhile
-  return ''
-endfunction
-
-
-
-function! s:to_a(expr)  " {{{2
-  return type(a:expr) == type('') ? split(a:expr, '\s\+') :
-  \      type(a:expr) != type([]) ? [a:expr] : a:expr
-endfunction
-
-
-
 function! s:refe(args)  " {{{2
-  return ref#system(s:to_a(g:ref_refe_cmd) + s:to_a(a:args))
+  return ref#system(ref#to_list(g:ref_refe_cmd) + ref#to_list(a:args))
 endfunction
 
 
@@ -374,7 +343,7 @@ endfunction
 
 
 function! ref#refe#define()  " {{{2
-  return s:source
+  return copy(s:source)
 endfunction
 
 call ref#register_detection('ruby', 'refe')  " {{{1

@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.3.1
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -17,7 +17,6 @@ INTERFACE			|ref-interface|
 CUSTOMIZING			|ref-customizing|
 SOURCES				|ref-sources|
   AUTOLOAD			  |ref-autoload|
-TODO				|ref-todo|
 CHANGELOG			|ref-changelog|
 
 
@@ -29,6 +28,8 @@ core of viewer and sources of reference.  As a result, various references can
 be viewed by the same interface.
 
 Following sources are included in this plugin:
+- alc		(|ref-alc.txt|)
+- erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -56,10 +57,11 @@ INTERFACE					*ref-interface*
 ------------------------------------------------------------------------------
 FUNCTIONS					*ref-functions*
 
-ref#open({source-name}, {query})		*ref#open()*
-			A function version of |:Ref|.
+ref#open({source-name}, {query} [, {options}])	*ref#open()*
+			A function version of |:Ref|. {options} is specified
+			by a dictionary.
 
-ref#jump({mode} [, {source-name}])		*ref#jump()*
+ref#jump([{mode} [, {source-name}]] [, {options}])	*ref#jump()*
 			Open the source with looking for query from the cursor
 			position.  When the {source-name} is omitted,
 			|ref#detect()| is used.
@@ -74,6 +76,9 @@ ref#jump({mode} [, {source-name}])		*ref#jump()*
 			"line"/"char"/"block"
 					This function can be used for
 					'operatorfunc'.
+
+			When the dictionary is passed to the argument, it is
+			treated as much as {options} of ref#open().
 
 ref#register({source})				*ref#register()*
 			Register a new source.  See |ref-sources| about
@@ -101,7 +106,7 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 The following functions are used by |ref-sources| mainly.
 
-ref#cache({source-name}, {name}, {gather})	*ref#cache()*
+ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			It is a function to cache a time-consuming list to
 			acquisition.  The list is cached in the automatic
 			operation in using this function. The cached list is
@@ -113,15 +118,20 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			2. A evaluatable string by |eval()|.  (Note scope.)
 			3. A dictionary with dictionary function "call" in
 			   member.
+			4. A |List| for caching.
 			A function of 1 and 3 is received {name} as argument.
 			a:name can be referred by 2.
 			In any case, it is necessary to return the list.
+			When {gather} is omitted, the cached list is acquired.
+			When cash doesn't exist, 0 is returned.
+			When numbers except 0 are given to {update}, cash is
+			updated.
 
 ref#system({expr} [, {input}])			*ref#system()*
 			Like |system()|, but {expr} takes a |List|.  Each
 			items are processed by |shellescape()|.
-			If {expr} is a string, it is simply separated by
-			whitespaces.
+			If {expr} is a string, it is separated by
+			|ref#to_list()|.
 			In addition, this function returns a |Dictionary| that
 			has following entries.
 			result: Return code.
@@ -131,13 +141,40 @@ ref#system({expr} [, {input}])			*ref#system()*
 			|g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#to_list({expr}, ...)			*ref#to_list()*
+			Convert {expr} into a |List|.
+			If {expr} is a |List|, return {expr}.
+			If {expr} is a string, splitted by |split()|.
+			Otherwise, return a |List| which contains {expr}.
+			When two or more arguments are passed, the one that
+			all the arguments were converted is joined and
+			returned.
+
+ref#uniq({list})				*ref#uniq()*
+			Return new list that omitted repeated items.  The
+			result is sorted by |sort()|.
+
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			When the text under the cursor is a specified pattern,
+			the text is acquired. The empty string is returned
+			when not matching it to the pattern.
+
 
 ------------------------------------------------------------------------------
 COMMANDS					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			Open the |ref-viewer|.  [query] is used by
 			|ref-sources| as query.
+			This can specify the option before {source-name}.
+			Option is start with "-".  The following options can
+			be used.
+						*:Ref-option*
+			-open={command}	Overwrite the |g:ref_open|.
+			-new		Open the viewer forcely and newly.
+			-nocache	Don't use cache.
+			-noenter	Don't enter the |rev-viewer|.
+			-updatecache	Update cache.
 
 :RefHistory					*:RefHistory*
 			List the history in |ref-viewer|.  It is possible to
@@ -198,6 +235,11 @@ FileType ref					*filetype-ref*
 	endfunction
 <
 
+FileType ref-{source-name}			*filetype-ref-{source-name}*
+	The filetype set actually finally becomes ref-{source-name} though
+	|filetype-ref| is generated when |ref-viewer| is opened first.
+	This event is generated every time the source changes.
+
 g:ref_open					*g:ref_open*
 	The Assistance command used when |ref-viewer| is opened.  For example,
 	|:vsplit|, |:tabnew|, and so on.  The default value is "split".
@@ -215,8 +257,12 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	The key is a filetype, and the value is a source name or a |Funcref|.
 	If the value is |Funcref|, it take a filetype as argument and return
 	the source name.  If it can not detect, return empty string.  If _ key
-	exists, it is used when it is not possible to detect.  Some sources
+	exists, it is used when the filetype was not registered.  Some sources
 	register the appropriate entry on loaded.
+
+g:ref_noenter					*g:ref_noenter*
+b:ref_noenter					*b:ref_noenter*
+	Always enable the -noenter of |:Ref-option|.
 
 
 
@@ -236,6 +282,10 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			Required.  Return the body of reference by List of
 			line break delimitation or String.
+			A dictionary that has the following entries also can
+			be returned.
+			body: Required.  The body of reference.
+			query: Optional.  The normalized {query}.
 			Throws an exception with an error message if body is
 			not found.
 
@@ -256,9 +306,16 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			Optional.  Return the completion list for command-line.
 
+normalize({query})			*ref-source-attr-normalize()*
+			Optional.  Normalize the {query}.  It is used for
+			buffer name, and passed to get_body() and opened().
+
 leave()					*ref-source-attr-leave()*
 			Optional.  This function is called when move to other
 			source page.
+
+cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
+			Defined by core.  This is a shortcut to |ref#cache()|.
 
 ------------------------------------------------------------------------------
 AUTOLOAD					*ref-autoload*
@@ -269,21 +326,38 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 
 
 ==============================================================================
-TODO						*ref-todo*
-
-- Append sources.
-  - href
-  - javadoc
-  - etc...
-- More customizable.
-- Global command line options.
-  - :Ref [-option ...] {source-name} ...
-  - Example: split
-
-
-
-==============================================================================
 CHANGELOG					*ref-changelog*
+
+0.4.1	2010-06-04
+	- |ref-source-attr-get_body()| can return a |Dictionary|.
+	- |ref#cache()| accepts a |List| as {gather}.
+	- Fixed the arguments of |ref-source-attr-cache()|.
+	- Fixed the some bugs for |ref#detect()|.
+	- Fixed a bug that |filetype-ref-{source-name}| is not changed when go
+	  back the history.
+
+0.4.0	2010-05-31
+	- Changed filetype convention.
+	  - See |filetype-ref-{source-name}|.
+	- Do not add to the history when a continuous, same page was opened.
+	- Added |ref-source-attr-cache()|.
+	- {gather} of |ref#cache()| was made omissible.
+	- Added the {update} argument to |ref#cache()|.
+	- Added the -updatecache to |:Ref-option|.
+
+0.3.3	2010-05-23
+	- Added |ref#to_list()|.
+	- Fixed a bug that the range of |ref#get_text_on_cursor()| was wrong.
+	- |ref#open()| can take options.
+	- |ref#jump()| can take options.
+	- Added the -noenter to |:Ref-option|.
+	- Added the |g:ref_noenter| and the |b:ref_noenter|.
+
+0.3.2	2010-05-07
+	- Added |ref#uniq()|.
+	- Added |ref#get_text_on_cursor()|.
+	- Added |ref-source-attr-normalize()|.
+	- The option is able to be specified for Ref. (|:Ref-option|)
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| accepts a special key _.

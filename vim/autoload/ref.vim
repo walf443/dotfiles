@@ -1,5 +1,5 @@
 " Integrated reference viewer.
-" Version: 0.3.1
+" Version: 0.4.1
 " Author : thinca <thinca+vim@gmail.com>
 " License: Creative Commons Attribution 2.1 Japan License
 "          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -7,6 +7,7 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+" Options. {{{1
 if !exists('g:ref_open')
   let g:ref_open = 'split'
 endif
@@ -30,6 +31,8 @@ let s:TYPES = {
 \     'float': type(0.0),
 \   }
 
+let s:options = ['-open=', '-new', '-nocache', '-noenter', '-updatecache']
+
 let s:sources = {}
 
 let s:prototype = {}  " {{{1
@@ -41,20 +44,24 @@ endfunction
 function! s:prototype.complete(query)
   return []
 endfunction
+function! s:prototype.normalize(query)
+  return a:query
+endfunction
 function! s:prototype.leave()
+endfunction
+function! s:prototype.cache(name, ...)
+  return call('ref#cache', [self.name, a:name] + a:000)
 endfunction
 
 
 
-" {{{1
+" API functions. {{{1
 
 " A function for main command.
 function! ref#ref(args)  " {{{2
   try
-    let [source, query] = matchlist(a:args, '\v^(\w+)\s*(.*)$')[1:2]
-    return ref#open(source, query)
-  catch /^Vim(let):E688:/
-    call s:echoerr('ref: Invalid argument: ' . a:args)
+    let parsed = s:parse_args(a:args)
+    return ref#open(parsed.source, parsed.query, parsed.options)
   catch /^ref:/
     call s:echoerr(v:exception)
   endtry
@@ -63,112 +70,36 @@ endfunction
 
 
 function! ref#complete(lead, cmd, pos)  " {{{2
-  let list = matchlist(a:cmd, '^\v.{-}R%[ef]\s+(\w+)\s+(.*)$')
-  if list == []
-    let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
-    return filter(s, 'v:val =~ "^".a:lead')
-  endif
-  let [source, query] = list[1 : 2]
-  return get(s:sources, source, s:prototype).complete(query)
-endfunction
-
-
-
-function! ref#register(source)  " {{{2
-  if type(a:source) != type({})
-    throw 'ref: Invalid source: The source should be a Dictionary.'
-  endif
-  let source = extend(copy(s:prototype), a:source)
-  call s:validate(source, 'name', 'string')
-  call s:validate(source, 'get_body', 'function')
-  call s:validate(source, 'opened', 'function')
-  call s:validate(source, 'get_keyword', 'function')
-  call s:validate(source, 'complete', 'function')
-  call s:validate(source, 'leave', 'function')
-  let s:sources[source.name] = source
-endfunction
-
-
-
-function! ref#available_source_names()  " {{{2
-  return keys(s:sources)
-endfunction
-
-
-
-function! ref#available_sources(...)  " {{{2
-  return !a:0                    ? copy(s:sources) :
-  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
-endfunction
-
-
-
-function! ref#open(source, query, ...)  " {{{2
-  if !has_key(s:sources, a:source)
-    throw 'ref: The source is not registered: ' . a:source
-  endif
-  let source = s:sources[a:source]
-  if !source.available()
-    throw 'ref: This source is unavailable: ' . a:source
-  endif
-
+  let cmd = a:cmd[: a:pos]
   try
-    let res = source.get_body(a:query)
+    let parsed = s:parse_args(matchstr(cmd, '^\v.{-}R%[ef]\s+\zs.*$'))
   catch
-    call s:echoerr(v:exception)
-    return
+    return []
   endtry
-
-  if type(res) == type([])
-    let newres = join(res, "\n")
-    unlet! res
-    let res = newres
-  endif
-  if type(res) != type('') || res == ''
-    return
-  endif
-
-  let pos = getpos('.')
-
-  let bufnr = 0
-  for i in range(1, winnr('$'))
-    let n = winbufnr(i)
-    if getbufvar(n, '&filetype') == 'ref'
-      execute i 'wincmd w'
-      let bufnr = i
-      break
+  try
+    if has_key(parsed.options, 'nocache')
+      let s:nocache = 1
     endif
-  endfo
-
-  if bufnr == 0
-    silent! execute (a:0 ? a:1 : g:ref_open)
-    enew
-    call s:initialize_buffer(a:source)
-  else
-    setlocal modifiable noreadonly
-    % delete _
-    if b:ref_source != a:source
-      call source.leave()
+    if has_key(parsed.options, 'updatecache')
+      let s:updatecache = 1
     endif
-  endif
-  let b:ref_source = a:source
-
-  " FIXME: not cool...
-  let s:res = res
-  call s:open(a:query, 'silent :1 put = s:res | 1 delete _')
-  unlet! s:res
-
-  let b:ref_history_pos += 1
-  unlet! b:ref_history[b:ref_history_pos :]
-  if 0 < b:ref_history_pos
-    let b:ref_history[-1][3] = pos
-  endif
-  call add(b:ref_history, [a:source, a:query, changenr(), []])
+    if parsed.source == '' || (parsed.query == '' && cmd =~ '\S$')
+      let lead = matchstr(cmd, '-\w*$')
+      if lead != ''
+        return filter(copy(s:options), 'v:val =~ "^" . lead && ' .
+        \      '!has_key(parsed.options, matchstr(v:val, "\\w\\+"))')
+      endif
+      let s = keys(filter(copy(ref#available_sources()), 'v:val.available()'))
+      return filter(s, 'v:val =~ "^".a:lead')
+    endif
+    return get(s:sources, parsed.source, s:prototype).complete(parsed.query)
+  finally
+    unlet! s:nocache s:updatecache
+  endtry
 endfunction
 
 
 
-" A function for key mapping for K.
 function! ref#K(mode)  " {{{2
   try
     call ref#jump(a:mode)
@@ -179,13 +110,42 @@ endfunction
 
 
 
+function! ref#open(source, query, ...)  " {{{2
+  try
+    let options = a:0 ? a:1 : {}
+    if (exists('g:ref_noenter') && g:ref_noenter) ||
+    \  (exists('b:ref_noenter') && b:ref_noenter)
+      let options.noenter = '1'
+    endif
+    if has_key(options, 'nocache')
+      let s:nocache = 1
+    endif
+    return s:open(a:source, a:query, options)
+  finally
+    unlet! s:nocache
+  endtry
+endfunction
+
+
+
 function! ref#jump(...)  " {{{2
-  let source = 2 <= a:0 ? a:2 : ref#detect()
+  let args = copy(a:000)
+  let options = {}
+
+  for a in args
+    if type(a) == s:TYPES.dictionary
+      call extend(options, a)
+    endif
+    unlet a
+  endfor
+  call filter(args, 'type(v:val) != s:TYPES.dictionary')
+
+  let source = 2 <= len(args) ? args[1] : ref#detect()
   if !has_key(s:sources, source)
     throw 'ref: The source is not registered: ' . source
   endif
 
-  let mode = a:0 ? a:1 : 'normal'
+  let mode = get(args, 0, 'normal')
   let query = ''
   if mode ==# 'normal'
     let pos = getpos('.')
@@ -222,13 +182,44 @@ function! ref#jump(...)  " {{{2
 
   endif
   if type(query) == type('') && query != ''
-    call ref#open(source, query)
+    call ref#open(source, query, options)
   endif
 endfunction
 
 
 
-function! ref#detect()
+function! ref#register(source)  " {{{2
+  if type(a:source) != s:TYPES.dictionary
+    throw 'ref: Invalid source: The source should be a Dictionary.'
+  endif
+  let source = extend(copy(s:prototype), a:source)
+  call s:validate(source, 'name', 'string')
+  call s:validate(source, 'available', 'function')
+  call s:validate(source, 'get_body', 'function')
+  call s:validate(source, 'opened', 'function')
+  call s:validate(source, 'get_keyword', 'function')
+  call s:validate(source, 'complete', 'function')
+  call s:validate(source, 'normalize', 'function')
+  call s:validate(source, 'leave', 'function')
+  let s:sources[source.name] = source
+endfunction
+
+
+
+function! ref#available_source_names()  " {{{2
+  return keys(s:sources)
+endfunction
+
+
+
+function! ref#available_sources(...)  " {{{2
+  return !a:0                    ? copy(s:sources) :
+  \      has_key(s:sources, a:1) ? s:sources[a:1]  : 0
+endfunction
+
+
+
+function! ref#detect()  " {{{2
   if exists('b:ref_source')
     let Source = b:ref_source
   elseif exists('g:ref_detect_filetype[&l:filetype]')
@@ -241,20 +232,21 @@ function! ref#detect()
 
   if type(Source) == s:TYPES.function
     " For dictionary function.
-    let s = call(Source, [&l:filetype], g:ref_detect_filetype)
+    let dict = exists('g:ref_detect_filetype') ? g:ref_detect_filetype : {}
+    let s = call(Source, [&l:filetype], dict)
     unlet Source
     let Source = s
   endif
 
-  if type(Source) == s:TYPES.string && Source != ''
+  if type(Source) == s:TYPES.string
     return Source
   endif
-  throw 'ref: Can not detect the source.'
+  return ''
 endfunction
 
 
 
-function! ref#register_detection(ft, source)
+function! ref#register_detection(ft, source)  " {{{2
   if !exists('g:ref_detect_filetype')
     let g:ref_detect_filetype = {}
   endif
@@ -269,8 +261,17 @@ endfunction
 
 " Helper functions for source. {{{1
 let s:cache = {}
-function! ref#cache(source, name, gather)  " {{{2
-  if !exists('s:cache[a:source][a:name]')
+function! ref#cache(source, name, ...)  " {{{2
+  let get_only = a:0 == 0
+  let update = get(a:000, 1, 0) || exists('s:updatecache')
+  if exists('s:nocache')
+    if get_only
+      return 0
+    endif
+    return s:gather_cache(a:name, a:1)
+  endif
+
+  if update || !exists('s:cache[a:source][a:name]')
     if !has_key(s:cache, a:source)
       let s:cache[a:source] = {}
     endif
@@ -285,21 +286,11 @@ function! ref#cache(source, name, gather)  " {{{2
       endif
     endif
 
-    if !has_key(s:cache[a:source], a:name)
-      let cache =
-      \  type(a:gather) == s:TYPES.function ? a:gather(a:name) :
-      \  type(a:gather) == type({}) && has_key(a:gather, 'call')
-      \    && type(a:gather.call) == s:TYPES.function ?
-      \       a:gather.call(a:name) :
-      \  type(a:gather) == type('') ? eval(a:gather) : []
-
-      if type(cache) == s:TYPES.list
-        let s:cache[a:source][a:name] = cache
-      elseif type(cache) == s:TYPES.string
-        let s:cache[a:source][a:name] = split(cache, "\n")
-      else
-        throw 'ref: Invalid results of cache: ' . string(cache)
+    if update || !has_key(s:cache[a:source], a:name)
+      if get_only
+        return 0
       endif
+      let s:cache[a:source][a:name] = s:gather_cache(a:name, a:1)
 
       if g:ref_cache_dir != ''
         let dir = fnamemodify(file, ':h')
@@ -317,7 +308,7 @@ endfunction
 
 
 function! ref#system(args, ...)  " {{{2
-  let args = type(a:args) == type('') ? split(a:args, '\s\+') : a:args
+  let args = ref#to_list(a:args)
   if g:ref_use_vimproc
     let stdout = a:0 ? vimproc#system(args, a:1) : vimproc#system(args)
     return {
@@ -395,6 +386,46 @@ endfunction
 
 
 
+function! ref#to_list(...)  " {{{2
+  let list = []
+  for a in a:000
+    let list += type(a) == s:TYPES.string ? split(a) :
+    \           type(a) == s:TYPES.list ? a : [a]
+    unlet a
+  endfor
+  return list
+endfunction
+
+
+
+function! ref#uniq(list)  " {{{2
+  let d = {}
+  for i in a:list
+    let d[i] = 0
+  endfor
+  return sort(keys(d))
+endfunction
+
+
+
+function! ref#get_text_on_cursor(pat)  " {{{2
+  let line = getline('.')
+  let pos = col('.')
+  let s = 0
+  while s < pos
+    let [s, e] = [match(line, a:pat, s), matchend(line, a:pat, s)]
+    if s < 0
+      break
+    elseif s < pos && pos <= e
+      return line[s : e - 1]
+    endif
+    let s += 1
+  endwhile
+  return ''
+endfunction
+
+
+
 
 
 
@@ -431,14 +462,164 @@ function! s:initialize_buffer(source)  " {{{2
 endfunction
 
 
-function! s:open(query, open_cmd)  " {{{2
-  setlocal modifiable noreadonly
+
+function! s:parse_args(argline)  " {{{2
+  let res = {'source': '', 'query': '', 'options': {}}
+  let rest = a:argline
+  try
+    while rest =~ '\S'
+      let [word, rest] = matchlist(rest, '\v^(-?\w*%(\=\S*)?)\s*(.*)$')[1 : 2]
+      if word =~# '^-'
+        let [word, value] = matchlist(word, '\v^-(\w*)%(\=(.*))?$')[1 : 2]
+        if word != ''
+          let res.options[word] = value
+        endif
+      else
+        let [res.source, res.query, rest] = [word, rest, '']
+      endif
+    endwhile
+  catch
+    throw 'ref: Invalid argument: ' . a:argline
+  endtry
+
+  return res
+endfunction
+
+
+
+function! s:gather_cache(name, gather)  " {{{2
+  let type = type(a:gather)
+  let cache =
+  \  type == s:TYPES.function ? a:gather(a:name) :
+  \  type == s:TYPES.dictionary && has_key(a:gather, 'call')
+  \    && type(a:gather.call) == s:TYPES.function ?
+  \       a:gather.call(a:name) :
+  \  type == s:TYPES.string ? eval(a:gather) :
+  \  type == s:TYPES.list ? a:gather : []
+
+  if type(cache) == s:TYPES.list
+    return cache
+  elseif type(cache) == s:TYPES.string
+    return split(cache, "\n")
+  endif
+  throw 'ref: Invalid results of cache: ' . string(cache)
+endfunction
+
+
+
+function! s:open(source, query, options)  " {{{2
+  if !has_key(s:sources, a:source)
+    throw 'ref: The source is not registered: ' . a:source
+  endif
+  let source = s:sources[a:source]
+  if !source.available()
+    throw 'ref: This source is unavailable: ' . a:source
+  endif
+
+  let query = source.normalize(a:query)
+  try
+    let res = source.get_body(query)
+    if type(res) == s:TYPES.dictionary
+      let dict = res
+      unlet res
+      let res = dict.body
+      if has_key(dict, 'query')
+        let query = dict.query
+      endif
+    endif
+  catch
+    call s:echoerr(v:exception)
+    return
+  endtry
+
+  if type(res) == type([])
+    let newres = join(res, "\n")
+    unlet! res
+    let res = newres
+  endif
+  if type(res) != type('') || res == ''
+    return
+  endif
+
+  let pos = getpos('.')
+
+  if has_key(a:options, 'noenter')
+    let w:ref_back = 1
+  endif
+
+  let bufnr = 0
+  if !has_key(a:options, 'new')
+    for i in range(0, winnr('$'))
+      let n = winbufnr(i)
+      if getbufvar(n, '&filetype') =~# '^ref-'
+        if i != 0
+          execute i 'wincmd w'
+        endif
+        let bufnr = n
+        break
+      endif
+    endfor
+  endif
+
+  if bufnr == 0
+    silent! execute has_key(a:options, 'open') ? a:options.open : g:ref_open
+    enew
+    call s:initialize_buffer(a:source)
+  else
+    setlocal modifiable noreadonly
+    % delete _
+    if b:ref_source !=# a:source
+      syntax clear
+      call source.leave()
+    endif
+  endif
+
+  " FIXME: not cool...
+  let s:res = res
+  call s:open_source(a:source, query, 'silent :1 put = s:res | 1 delete _')
+  unlet! s:res
+
+  if !(0 <= b:ref_history_pos
+  \ && b:ref_history[b:ref_history_pos][0] ==# a:source
+  \ && b:ref_history[b:ref_history_pos][1] ==# query)
+    let b:ref_history_pos += 1
+    unlet! b:ref_history[b:ref_history_pos :]
+    if 0 < b:ref_history_pos
+      let b:ref_history[-1][3] = pos
+    endif
+    call add(b:ref_history, [a:source, query, changenr(), []])
+  endif
+
+  if has_key(a:options, 'noenter')
+    for t in range(1, tabpagenr('$'))
+      for w in range(1, winnr('$'))
+        if gettabwinvar(t, w, 'ref_back')
+          execute 'tabnext' t
+          execute w 'wincmd w'
+          unlet! w:ref_back
+        endif
+      endfor
+    endfor
+  endif
+endfunction
+
+
+
+" A function for key mapping for K.
+function! s:open_source(source, query, open_cmd)  " {{{2
+  if !exists('b:ref_source') || b:ref_source !=# a:source
+    let b:ref_source = a:source
+    execute 'setlocal filetype=ref-' . a:source
+  endif
 
   let bufname = printf('[ref-%s:%s]', b:ref_source, a:query)
   if s:is_win
     " In Windows, '*' cannot be used for a buffer name.
     let bufname = substitute(bufname, '\*', '', 'g')
   endif
+
+  setlocal modifiable noreadonly
+
   silent! file `=bufname`
 
   execute a:open_cmd
@@ -467,8 +648,7 @@ function! s:move_history(n)  " {{{2
   let b:ref_history_pos = next
 
   let [source, query, changenr, pos] = b:ref_history[next]
-  let b:ref_source = source
-  call s:open(query, 'silent! undo ' . changenr)
+  call s:open_source(source, query, 'silent! undo ' . changenr)
   call setpos('.', pos)
 endfunction
 
@@ -525,23 +705,15 @@ endfunction
 
 function! s:echoerr(msg)  " {{{2
   echohl ErrorMsg
-  echomsg a:msg
+  for line in split(a:msg, "\n")
+    echomsg line
+  endfor
   echohl None
 endfunction
 
 
 
-function! s:uniq(list)  " {{{2
-  let d = {}
-  for i in a:list
-    let d[i] = 0
-  endfor
-  return sort(keys(d))
-endfunction
-
-
-
-" Register the default sources.
+" Register the default sources. {{{1
 function! s:register_defaults()  " {{{2
   let list = split(globpath(&runtimepath, 'autoload/ref/*.vim'), "\n")
   for name in map(list, 'fnamemodify(v:val, ":t:r")')

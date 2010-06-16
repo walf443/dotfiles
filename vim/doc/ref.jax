@@ -1,6 +1,6 @@
 *ref.txt*	総合リファレンスビューア。
 
-Version: 0.3.1
+Version: 0.4.1
 Author : thinca <thinca+vim@gmail.com>
 License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
          <http://creativecommons.org/licenses/by/2.1/jp/>
@@ -28,6 +28,8 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ェースで複数のリファレンスを閲覧できます。
 
 このプラグインには以下のソースが含まれています:
+- alc		(|ref-alc.txt|)
+- erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
 - phpmanual	(|ref-phpmanual.txt|)
@@ -57,10 +59,10 @@ License: クリエイティブ・コモンズの表示 2.1 日本ライセンス
 ------------------------------------------------------------------------------
 関数						*ref-functions*
 
-ref#open({source-name}, {query})		*ref#open()*
-			|:Ref| の関数版です。
+ref#open({source-name}, {query} [, {options}])	*ref#open()*
+			|:Ref| の関数版です。{options} は辞書で指定します。
 
-ref#jump([{mode} [, {source-name}]])		*ref#jump()*
+ref#jump([{mode} [, {source-name}]] [, {options}])	*ref#jump()*
 			カーソル位置からクエリを探してソースを開きます。ソース
 			名が省略された場合、|ref#detect()| が使われます。
 			{mode} にはクエリをどのように取得するかを指定します。
@@ -73,6 +75,9 @@ ref#jump([{mode} [, {source-name}]])		*ref#jump()*
 			"line"/"char"/"block"
 					これによりこの関数は 'operatorfunc' と
 					して機能します。
+
+			引数に辞書が渡された場合、|ref#open()| の {options} と
+			同じように扱われます。
 
 ref#register({source})				*ref#register()*
 			新しいソースを登録します。{source} に関しては
@@ -100,7 +105,7 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 以下の関数は主に |ref-sources| によって使われます。
 
-ref#cache({source-name}, {name}, {gather})	*ref#cache()*
+ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
 			取得に時間のかかるリストをキャッシュするための関数で
 			す。この関数を介することでリストは自動でキャッシュされ
 			ます。以降はキャッシュされたリストを返します。
@@ -110,15 +115,20 @@ ref#cache({source-name}, {name}, {gather})	*ref#cache()*
 			1. リストを取得するための |Funcref|。
 			2. |eval()| で評価可能な文字列。(スコープに注意。)
 			3. 辞書関数 "call" をメンバに持つ辞書。
+			4. キャッシュする |List|.
 			1 と 3 は関数の引数に {name} を受け取ります。
 			2 は a:name を参照できます。
 			いずれの場合もリストを返す必要があります。
+			{gather} が省略された場合、キャッシュされたリストを取
+			得します。キャッシュが存在しない場合、0 を返します。
+			{update} に 0 以外が与えられた場合、キャッシュを更新し
+			ます。
 
 ref#system({expr} [, {input}])			*ref#system()*
-			|system()| と同じですが、{expr} はリスト|List|を取りま
-			す。各要素は |shellescape()| で処理されます。
-			{expr} が文字列の場合、空白文字によって単純に分割され
-			ます。
+			|system()| と同じですが、{expr} はリスト(|List|)を取り
+			ます。各要素は |shellescape()| で処理されます。
+			{expr} が文字列の場合、|ref#to_list()| によって分割さ
+			れます。
 			加えて、この関数は以下の要素を持つ辞書(|Dictionary|)を
 			返します。
 			result: リターンコード。
@@ -128,13 +138,39 @@ ref#system({expr} [, {input}])			*ref#system()*
 			に |vimproc#system()| を使用します。
 			vimproc: http://github.com/Shougo/vimproc
 
+ref#to_list({expr}, ...)				*ref#to_list()*
+			{expr} を |List| に変換します。
+			{expr} が |List| の場合、{expr} をそのまま返します。
+			{expr} が文字列の場合、|split()| で分割します。
+			それ以外の場合、{expr} を含む |List| を返します。
+			複数の引数を渡した場合、全ての引数を変換したものを連結
+			して返します。
+
+ref#uniq({list})				*ref#uniq()*
+			重複した項目を取り除いた新しいリストを返します。結果
+			は|sort()| でソートされます。
+
+ref#get_text_on_cursor({pattern})		*ref#get_text_on_cursor()*
+			カーソル下のテキストが指定したパターンである場合、その
+			テキストを取得します。パターンにマッチしない場合は空文
+			字列を返します。
+
 
 ------------------------------------------------------------------------------
 コマンド					*ref-commands*
 
-:Ref {source-name} [query]			*:Ref*
+:Ref [options] {source-name} [query]		*:Ref*
 			|ref-viewer| を開きます。 [query] は |ref-sources| の
 			クエリに使われます。
+			{source-name} の前にオプションを指定できます。
+			オプションは "-" で始まります。以下のオプションが使用
+			できます。
+						*:Ref-option*
+			-open={command}	|g:ref_open| を上書きします。
+			-new		強制的に新しくビューアを開きます。
+			-nocache	キャッシュを使いません。
+			-noenter	|ref-viewer| へ移動しません。
+			-updatecache	キャッシュを更新します。
 
 :RefHistory					*:RefHistory*
 			|ref-viewer| の履歴をリスト表示します。数字を入力する
@@ -195,6 +231,11 @@ FileType ref					*filetype-ref*
 	endfunction
 <
 
+FileType ref-{source-name}			*filetype-ref-{source-name}*
+	|filetype-ref| は最初に |ref-viewer| が開かれた際に発生しますが、実際
+	に最終的に設定されるファイルタイプは ref-{source-name} になります。
+	このイベントはソースが切り替わる度に発生します。
+
 g:ref_open					*g:ref_open*
 	|ref-viewer| を開く際の補助コマンドです。例えば、|:vsplit| や
 	|:tabnew|などを指定します。デフォルト値は "split" です。
@@ -212,8 +253,13 @@ g:ref_detect_filetype				*g:ref_detect_filetype*
 	|filetype| からソースを検出するための |Dictionary| を指定します。キー
 	にファイルタイプ、値にソース名または |Funcref| を指定します。|Funcref|
 	の場合、その関数はファイルタイプを引数にとりソース名を返します。検出で
-	きない場合は空文字列を返します。キーに _ を使うと、検出できなかった場
-	合に使用されます。いくつかのソースはロード時にエントリを登録します。
+	きない場合は空文字列を返します。キーに _ を使うと、ファイルタイプが登
+	録されていなかった場合に使用されます。いくつかのソースはロード時にエン
+	トリを登録します。
+
+g:ref_noenter					*g:ref_noenter*
+b:ref_noenter					*b:ref_noenter*
+	|:Ref-option| の -noenter を常に有効にします。
 
 
 
@@ -232,6 +278,9 @@ available()				*ref-source-attr-available()*
 get_body({query})			*ref-source-attr-get_body()*
 			必須。リファレンスの本文を改行区切りの文字列かリストで
 			返します。
+			また、以下の要素を持つ辞書を返すこともできます。
+			body: 必須。リファレンスの本文。
+			query: 任意。正規化された {query}。
 			本文が見つからない場合はエラーメッセージと共に例外を投
 			げます。
 
@@ -252,8 +301,15 @@ get_keyword()				*ref-source-attr-get_keyword()*
 complete({query})			*ref-source-attr-complete()*
 			任意。コマンドラインの補完リストを返します。
 
+normalize({query})			*ref-source-attr-normalize()*
+			任意。{query} を正規化します。これはバッファ名として使
+			われ、そして get_body() と opened() に渡されます。
+
 leave()					*ref-source-attr-leave()*
 			任意。この関数は別のソースに移動する際に呼ばれます。
+
+cache({name} [, {gather} [, {update}]])	*ref-source-attr-cache()*
+			本体によって定義されます。|ref#cache()| の短縮版です。
 
 ------------------------------------------------------------------------------
 オートロード					*ref-autoload*
@@ -265,6 +321,37 @@ leave()					*ref-source-attr-leave()*
 
 ==============================================================================
 更新履歴					*ref-changelog*
+
+0.4.1	2010-06-04
+	- |ref-source-attr-get_body()| が辞書を返せるようにした。
+	- |ref#cache()| が {gather} に |List| を受け付けるようにした。
+	- |ref-source-attr-cache()| の引数が変わっていなかったのを修正。
+	- |ref#detect()| に関するいくつかのバグを修正。
+	- 履歴を戻った時 |filetype-ref-{source-name}| が変更されないバグを修
+	  正。
+
+0.4.0	2010-05-31
+	- ファイルタイプの規則を変更。
+	  - |filetype-ref-{source-name}| を参照。
+	- 連続で同じページを開いた場合履歴に追加しないようにした。
+	- |ref-source-attr-cache()| を追加。
+	- |ref#cache()| の {gather} を省略できるようにした。
+	- |ref#cache()| に {update} 引数を追加。
+	- |:Ref-option| に -updatecache を追加。
+
+0.3.3	2010-05-23
+	- |ref#to_list()| を追加。
+	- |ref#get_text_on_cursor()| の範囲が間違っていたのを修正。
+	- |ref#open()| がオプションを受け取れるようにした。
+	- |ref#jump()| がオプションを受け取れるようにした。
+	- |:Ref-option| に -noenter を追加。
+	- |g:ref_noenter| と |b:ref_noenter| を追加。
+
+0.3.2	2010-05-07
+	- |ref#uniq()| を追加。
+	- |ref#get_text_on_cursor()| を追加。
+	- |ref-source-attr-normalize()| を追加。
+	- |:Ref| にオプションを指定できるようにした。(|:Ref-option|)
 
 0.3.1	2010-04-22
 	- |g:ref_detect_filetype| が特殊なキー _ を受け付けるようにした。
