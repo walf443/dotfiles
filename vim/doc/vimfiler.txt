@@ -126,6 +126,34 @@ BUGS						*vimfiler-bugs*
 ==============================================================================
 CHANGELOG					*vimfiler-changelog*
 
+2010-06-15
+- Improved wincmd.
+
+2010-06-13
+- Optimized redraw.
+- Refactoringed mappings.
+- Implemented <Plug>(vimfiler_toggle_mark_selected_lines) mapping.
+
+2010-06-12
+- Supported symbolic link and Win32 shortcut.
+- Improved filetype detect.
+- Added g:vimfiler_extensions option.
+
+2010-06-11
+- Fixed exrename error.
+
+2010-06-10
+- Fixed vimfiler#get_filename() error.
+
+2010-06-09
+- Optimized <Plug>(vimfiler_loop_cursor_down) and <Plug>(vimfiler_loop_cursor_up).
+
+2010-06-05
+- Improved initialize cursor.
+
+2010-06-01
+- Fixed critical error.
+
 2010-05-24
 - Fixed open bug.
 

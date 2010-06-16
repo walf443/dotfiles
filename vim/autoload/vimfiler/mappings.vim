@@ -1,7 +1,7 @@
 "=============================================================================
 " FILE: mappings.vim
 " AUTHOR: Shougo Matsushita <Shougo.Matsu@gmail.com>
-" Last Modified: 18 May 2010
+" Last Modified: 13 Jun 2010
 " License: MIT license  {{{
 "     Permission is hereby granted, free of charge, to any person obtaining
 "     a copy of this software and associated documentation files (the
@@ -24,37 +24,134 @@
 " }}}
 "=============================================================================
 
+" Plugin keymappings"{{{
+nnoremap <expr> <Plug>(vimfiler_loop_cursor_down)  (line('.') == line('$'))? 'gg' : 'j'
+nnoremap <expr> <Plug>(vimfiler_loop_cursor_up)  (line('.') == 1)? 'G' : 'k'
+nnoremap <silent> <Plug>(vimfiler_redraw_screen)  :<C-u>call vimfiler#force_redraw_screen()<CR>
+nnoremap <silent> <Plug>(vimfiler_toggle_mark_current_line)  :<C-u>call vimfiler#mappings#toggle_mark_current_line()<CR>j
+vnoremap <silent> <Plug>(vimfiler_toggle_mark_selected_lines)  :<C-u>call vimfiler#mappings#toggle_mark_lines(getpos("'<")[1], getpos("'>")[1])<CR>
+nnoremap <silent> <Plug>(vimfiler_toggle_mark_all_lines)  :<C-u>call vimfiler#mappings#toggle_mark_all_lines()<CR>
+nnoremap <silent> <Plug>(vimfiler_clear_mark_all_lines)  :<C-u>call vimfiler#mappings#clear_mark_all_lines()<CR>
+nnoremap <silent> <Plug>(vimfiler_execute)  :<C-u>call vimfiler#mappings#execute()<CR>
+nnoremap <silent> <Plug>(vimfiler_execute_file)  :<C-u>call vimfiler#mappings#execute_file()<CR>
+nnoremap <silent> <Plug>(vimfiler_move_to_up_directory)  :<C-u>call vimfiler#internal_commands#cd('..')<CR>
+nnoremap <silent> <Plug>(vimfiler_move_to_home_directory)  :<C-u>call vimfiler#internal_commands#cd('~')<CR>
+nnoremap <silent> <Plug>(vimfiler_move_to_root_directory)  :<C-u>call vimfiler#internal_commands#cd('/')<CR>
+nnoremap <silent> <Plug>(vimfiler_move_to_trashbox_directory)  :<C-u>call vimfiler#internal_commands#cd(g:vimfiler_trashbox_directory)<CR>
+nnoremap <silent> <Plug>(vimfiler_move_to_drive)  :<C-u>call vimfiler#mappings#move_to_drive()<CR>
+nnoremap <silent> <Plug>(vimfiler_jump_to_directory)  :<C-u>call vimfiler#mappings#jump_to_directory()<CR>
+nnoremap <silent> <Plug>(vimfiler_execute_new_gvim)  :<C-u>call vimfiler#internal_commands#gexe('gvim')<CR>
+nnoremap <silent> <Plug>(vimfiler_toggle_visible_dot_files)  :<C-u>call vimfiler#mappings#toggle_visible_dot_files()<CR>
+nnoremap <silent> <Plug>(vimfiler_popup_shell)  :<C-u>call vimfiler#mappings#popup_shell()<CR>
+nnoremap <silent> <Plug>(vimfiler_edit_file)  :<C-u>call vimfiler#mappings#edit_file()<CR>
+nnoremap <silent> <Plug>(vimfiler_execute_external_filer)  :<C-u>call vimfiler#internal_commands#open(b:vimfiler.current_dir)<CR>
+nnoremap <silent> <Plug>(vimfiler_execute_external_command)  :<C-u>call vimfiler#mappings#execute_external_command()<CR>
+nnoremap <silent> <Plug>(vimfiler_execute_shell_command)  :<C-u>call vimfiler#mappings#execute_shell_command()<CR>
+nnoremap <silent> <Plug>(vimfiler_exit)  :<C-u>call vimfiler#mappings#exit()<CR>
+nnoremap <silent> <Plug>(vimfiler_help)  :<C-u>nnoremap <buffer><CR>
+nnoremap <silent> <Plug>(vimfiler_preview_file)  :<C-u>call vimfiler#mappings#preview_file()<CR>
+nnoremap <silent> <Plug>(vimfiler_sync_with_current_vimfiler)  :<C-u>call vimfiler#mappings#sync_with_current_vimfiler()<CR>
+nnoremap <silent> <Plug>(vimfiler_sync_with_another_vimfiler)  :<C-u>call vimfiler#mappings#sync_with_another_vimfiler()<CR>
+nnoremap <silent> <Plug>(vimfiler_print_filename)  :<C-u>echo vimfiler#get_filename(line('.'))<CR>
+nnoremap <silent> <Plug>(vimfiler_paste_from_clipboard)  :<C-u>call vimfiler#mappings#paste_from_clipboard()<CR>
+nnoremap <silent> <Plug>(vimfiler_set_current_mask)  :<C-u>call vimfiler#mappings#set_current_mask()<CR>
+nnoremap <silent> <Plug>(vimfiler_restore_from_trashbox)  :<C-u>call vimfiler#mappings#restore_from_trashbox()<CR>
+nnoremap <silent> <Plug>(vimfiler_grep)  :<C-u>call vimfiler#mappings#grep()<CR>
+nnoremap <silent> <Plug>(vimfiler_select_sort_type)  :<C-u>call vimfiler#mappings#select_sort_type()<CR>
+
+nnoremap <silent> <Plug>(vimfiler_copy_file)  :<C-u>call vimfiler#mappings#copy()<CR>
+nnoremap <silent> <Plug>(vimfiler_move_file)  :<C-u>call vimfiler#mappings#move()<CR>
+nnoremap <silent> <Plug>(vimfiler_delete_file)  :<C-u>call vimfiler#mappings#delete()<CR>
+nnoremap <silent> <Plug>(vimfiler_force_delete_file)  :<C-u>call vimfiler#mappings#force_delete()<CR>
+nnoremap <silent> <Plug>(vimfiler_rename_file)  :<C-u>call vimfiler#mappings#rename()<CR>
+nnoremap <silent> <Plug>(vimfiler_make_directory)  :<C-u>call vimfiler#mappings#make_directory()<CR>
+nnoremap <silent> <Plug>(vimfiler_new_file)  :<C-u>call vimfiler#mappings#new_file()<CR>
+"}}}
+
+function! vimfiler#mappings#define_default_mappings()"{{{
+  if exists('g:vimfiler_no_default_key_mappings') && g:vimfiler_no_default_key_mappings
+    return
+  endif
+  
+  nmap <buffer> <TAB> <C-w>w
+  nmap <buffer> j <Plug>(vimfiler_loop_cursor_down)
+  nmap <buffer> k <Plug>(vimfiler_loop_cursor_up)
+
+  " Toggle mark.
+  nmap <buffer> <C-l> <Plug>(vimfiler_redraw_screen)
+  nmap <buffer> <Space> <Plug>(vimfiler_toggle_mark_current_line)
+  vmap <buffer> <Space> <Plug>(vimfiler_toggle_mark_selected_lines)
+
+  " Toggle marks in all lines.
+  nmap <buffer> * <Plug>(vimfiler_toggle_mark_all_lines)
+  " Clear marks in all lines.
+  nmap <buffer> U <Plug>(vimfiler_clear_mark_all_lines)
+
+  " Copy.
+  nmap <buffer> c <Plug>(vimfiler_copy_file)
+
+  " Move.
+  nmap <buffer> m <Plug>(vimfiler_move_file)
+
+  " Delete.
+  nmap <buffer> d <Plug>(vimfiler_delete_file)
+  nmap <buffer> D <Plug>(vimfiler_force_delete_file)
+
+  " Restore.
+  nmap <buffer> u <Plug>(vimfiler_restore_from_trashbox)
+
+  " Rename.
+  nmap <buffer> r <Plug>(vimfiler_rename_file)
+
+  " Make directory.
+  nmap <buffer> K <Plug>(vimfiler_make_directory)
+
+  " New file.
+  nmap <buffer> N <Plug>(vimfiler_new_file)
+
+  " Execute or change directory.
+  nmap <buffer> <Enter> <Plug>(vimfiler_execute)
+  nmap <buffer> l <Plug>(vimfiler_execute)
+
+  nmap <buffer> x <Plug>(vimfiler_execute_file)
+  nmap <buffer> h <Plug>(vimfiler_move_to_up_directory)
+  nmap <buffer> L <Plug>(vimfiler_move_to_drive)
+  nmap <buffer> J <Plug>(vimfiler_jump_to_directory)
+  nmap <buffer> ~ <Plug>(vimfiler_move_to_home_directory)
+  nmap <buffer> $ <Plug>(vimfiler_move_to_trashbox_directory)
+  nmap <buffer> \ <Plug>(vimfiler_move_to_root_directory)
+  nmap <buffer> gv <Plug>(vimfiler_execute_new_gvim)
+  nmap <buffer> . <Plug>(vimfiler_toggle_visible_dot_files)
+  nmap <buffer> H <Plug>(vimfiler_popup_shell)
+  nmap <buffer> e <Plug>(vimfiler_edit_file)
+  nmap <buffer> E <Plug>(vimfiler_execute_external_filer)
+  nmap <buffer> t <Plug>(vimfiler_execute_external_command)
+  nmap <buffer> ! <Plug>(vimfiler_execute_shell_command)
+  nmap <buffer> q <Plug>(vimfiler_exit)
+  nmap <buffer> ? <Plug>(vimfiler_help)
+  nmap <buffer> p <Plug>(vimfiler_paste_from_clipboard)
+  nmap <buffer> v <Plug>(vimfiler_preview_file)
+  nmap <buffer> o <Plug>(vimfiler_sync_with_current_vimfiler)
+  nmap <buffer> O <Plug>(vimfiler_sync_with_another_vimfiler)
+  nmap <buffer> <C-g> <Plug>(vimfiler_print_filename)
+  nmap <buffer> M <Plug>(vimfiler_set_current_mask)
+  nmap <buffer> gr <Plug>(vimfiler_grep)
+  nmap <buffer> s <Plug>(vimfiler_select_sort_type)
+endfunction"}}}
+
 " vimfiler key-mappings functions.
-function! vimfiler#mappings#loop_cursor_down()"{{{
-  if line('.') == line('$')
-    0
-  else
-    normal! j
-  endif
-endfunction"}}}
-function! vimfiler#mappings#loop_cursor_up()"{{{
-  if line('.') == 1
-    $
-  else
-    normal! k
-  endif
-endfunction"}}}
 function! vimfiler#mappings#toggle_mark_current_line()"{{{
   if !vimfiler#check_filename_line()
     " Don't toggle.
     return
   endif
-  setlocal modifiable
 
   let l:file = vimfiler#get_file(line('.'))
   let l:file.is_marked = !l:file.is_marked
+  
   call vimfiler#redraw_screen()
-
-  setlocal nomodifiable
 endfunction"}}}
 function! vimfiler#mappings#toggle_mark_all_lines()"{{{
-  setlocal modifiable
-
   let l:max = line('$')
   let l:cnt = 1
   while l:cnt <= l:max
@@ -67,13 +164,25 @@ function! vimfiler#mappings#toggle_mark_all_lines()"{{{
 
     let l:cnt += 1
   endwhile
+  
   call vimfiler#redraw_screen()
+endfunction"}}}
+function! vimfiler#mappings#toggle_mark_lines(start, end)"{{{
+  let l:cnt = a:start
+  while l:cnt <= a:end
+    let l:line = getline(l:cnt)
+    if vimfiler#check_filename_line(l:line)
+      " Toggle mark.
+      let l:file = vimfiler#get_file(l:cnt)
+      let l:file.is_marked = !l:file.is_marked
+    endif
 
-  setlocal nomodifiable
+    let l:cnt += 1
+  endwhile
+  
+  call vimfiler#redraw_screen()
 endfunction"}}}
 function! vimfiler#mappings#clear_mark_all_lines()"{{{
-  setlocal modifiable
-
   let l:max = line('$')
   let l:cnt = 1
   while l:cnt <= l:max
@@ -88,8 +197,6 @@ function! vimfiler#mappings#clear_mark_all_lines()"{{{
     let l:cnt += 1
   endwhile
   call vimfiler#redraw_screen()
-
-  setlocal nomodifiable
 endfunction"}}}
 function! vimfiler#mappings#execute()"{{{
   let l:line = getline('.')
@@ -105,6 +212,8 @@ function! vimfiler#mappings#execute()"{{{
 
     return
   endif
+
+  let l:filename = vimfiler#resolve(l:filename)
 
   if isdirectory(l:filename)
     " Change directory.
@@ -144,25 +253,26 @@ function! vimfiler#mappings#move_to_drive()"{{{
     echo printf('[%s] %s', l:key, l:drive)
   endfor
 
-  let l:key = tolower(input('Please input drive alphabet or other directory: ', '', 'dir'))
+  let l:key = vimfiler#resolve(expand(input('Please input drive alphabet or other directory: ', '', 'dir')))
+  
   if l:key == ''
     return
-  elseif has_key(l:drives, l:key)
-    call vimfiler#internal_commands#cd(l:drives[l:key])
-  elseif isdirectory(expand(l:key))
-    call vimfiler#internal_commands#cd(expand(l:key))
+  elseif has_key(l:drives, tolower(l:key))
+    call vimfiler#internal_commands#cd(l:drives[tolower(l:key)])
+  elseif isdirectory(l:key)
+    call vimfiler#internal_commands#cd(l:key)
   else
     echo 'Invalid directory name.'
     return
   endif
 endfunction"}}}
 function! vimfiler#mappings#jump_to_directory()"{{{
-  let l:dir = input('Jump to: ', '', 'dir')
+  let l:dir = vimfiler#resolve(expand(input('Jump to: ', '', 'dir')))
   if l:dir == ''
     echo 'Canceled.'
     return
-  elseif isdirectory(expand(l:dir))
-    call vimfiler#internal_commands#cd(expand(l:dir))
+  elseif isdirectory(l:dir)
+    call vimfiler#internal_commands#cd(l:dir)
   else
     echo 'Invalid directory name.'
     return
@@ -240,14 +350,14 @@ function! vimfiler#mappings#sync_with_current_vimfiler()"{{{
     call vimfiler#create_filer(b:vimfiler.current_dir, 
           \b:vimfiler.is_simple ? ['split', 'simple'] : ['split'])
     let s:last_vimfiler_bufnr = bufnr('%')
-    execute winnr('#') . 'wincmd w'
   else
     " Change another vimfiler directory.
     let l:current_dir = b:vimfiler.current_dir
     execute vimfiler#winnr_another_vimfiler() . 'wincmd w'
     call vimfiler#internal_commands#cd(l:current_dir)
-    execute winnr('#') . 'wincmd w'
   endif
+
+  wincmd p
 endfunction"}}}
 function! vimfiler#mappings#sync_with_another_vimfiler()"{{{
   " Search vimfiler window.
@@ -255,7 +365,7 @@ function! vimfiler#mappings#sync_with_another_vimfiler()"{{{
     call vimfiler#create_filer(b:vimfiler.current_dir, 
           \b:vimfiler.is_simple ? ['split', 'simple'] : ['split'])
     let s:last_vimfiler_bufnr = bufnr('%')
-    execute winnr('#') . 'wincmd w'
+    wincmd p
   else
     " Change current vimfiler directory.
     call vimfiler#internal_commands#cd(vimfiler#get_another_vimfiler().current_dir)
