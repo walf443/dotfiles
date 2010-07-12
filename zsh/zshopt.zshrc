@@ -13,6 +13,7 @@ setopt prompt_subst
 setopt hist_ignore_all_dups
 setopt hist_ignore_space
 setopt hist_save_nodups
+setopt magic_equal_subst
 autoload -U colors
 colors
 
