@@ -1,5 +1,7 @@
 # vim:ft=zsh:
 bindkey -e
+bindkey ";5C" forward-word # C- →で単語分進む
+bindkey ";5D" backward-word # C - ← で単語分戻る
 setopt extended_history
 setopt extended_glob
 setopt share_history
