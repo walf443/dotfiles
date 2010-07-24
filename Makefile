@@ -3,6 +3,7 @@ setup: $(HOME)/.zshenv \
 	   $(HOME)/.zshrc_custom \
 	   $(HOME)/.gitconfig \
 	   $(HOME)/.screenrc \
+	   $(HOME)/.tscreenrc \
 	   $(HOME)/.vimrc \
 	   $(HOME)/.vim \
 	   $(HOME)/.irbrc \
@@ -24,6 +25,9 @@ $(HOME)/.gitconfig:
 
 $(HOME)/.screenrc:
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
+
+$(HOME)/.tscreenrc:
+	ln -sf `pwd`/screen/screenrc $(HOME)/.tscreenrc
 
 $(HOME)/.vimrc:
 	ln -sf `pwd`/vim/vimrc $(HOME)/.vimrc
