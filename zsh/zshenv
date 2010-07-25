@@ -14,14 +14,5 @@ source "$ZSH_CONFIG_DIR/function.zshrc"
 
 if test ! $MF_DEV
 then
-    export MODULEBUILDRC="$HOME/local/.modulebuildrc"
-    export PERL_MM_OPT="INSTALL_BASE=$HOME/local"
-    PERL_ARCH=${PERL_ARCH:-$(perl -MConfig -e 'print $Config{archname}')}
-    LOCAL_PERL5LIB="$HOME/local/lib/perl5:$HOME/local/lib/perl5/$PERL_ARCH"
-    PERL5LIB=${PERL5LIB//$LOCAL_PERL5LIB:/}
-    export PERL5LIB="$LOCAL_PERL5LIB:$PERL5LIB"
-
-    LOCAL_PERLBIN="$HOME/local/bin"
-    PATH=${PATH//$LOCAL_PERLBIN:/}
-    export PATH="$LOCAL_PERLBIN:$PATH"
+    source "$HOME/perl5/perlbrew/etc/bashrc"
 fi
