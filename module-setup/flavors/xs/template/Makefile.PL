@@ -25,7 +25,7 @@ render_mt_hack '[% module %].mtxs' => '[% module %].xs';
 cc_warnings;
 use_ppport 3.19;
 
-tests 't/*.t';
+tests_recursive 't';
 author_tests 'xt';
 
 build_requires 'Test::More';

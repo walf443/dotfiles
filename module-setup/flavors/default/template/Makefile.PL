@@ -7,7 +7,7 @@ readme_from 'lib/[% module_path %].pm';
 
 # requires '';
 
-tests 't/*.t';
+tests_recursive 't';
 author_tests 'xt';
 
 build_requires 'Test::More';
