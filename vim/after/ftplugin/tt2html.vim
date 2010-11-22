@@ -1,7 +1,7 @@
-set path+=*/tmpl/
-set path+=*/template/
+setlocal path+=*/tmpl/
+setlocal path+=*/template/
 
-set noexpandtab
+setlocal noexpandtab
 
 let tt2html_match_words="\\<\\%(IF\\|FOR\\|WHILE\\)\\>:\\<ELSE\\>:\\<END\\>"
 if exists('b:match_words')

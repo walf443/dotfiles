@@ -1,3 +1,3 @@
-set textwidth=100
-set nolist
+setlocal textwidth=100
+setlocal nolist
 
