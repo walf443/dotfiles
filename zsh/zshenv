@@ -14,5 +14,10 @@ source "$ZSH_CONFIG_DIR/function.zshrc"
 
 if test ! $MF_DEV
 then
+fi
+
+PERLBREWRC="$HOME/perl5/perlbrew/etc/bashrc"
+if test -f "$PERLBREWRC"
+then
     source "$HOME/perl5/perlbrew/etc/bashrc"
 fi
