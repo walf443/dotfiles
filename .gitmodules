@@ -13,3 +13,6 @@
 [submodule "vim/bundle/zencoding"]
 	path = vim/bundle/zencoding
 	url = git://github.com/mattn/zencoding-vim.git
+[submodule "vim/bundle/unite_tags"]
+	path = vim/bundle/unite_tags
+	url = git://github.com/tsukkee/unite-tags.git
