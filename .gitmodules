@@ -1,0 +1,18 @@
+[submodule "vim/bundle/vim-pathogen"]
+	path = vim/bundle/vim-pathogen
+	url = git://github.com/tpope/vim-pathogen.git
+[submodule "vim/bundle/vim-ref"]
+	path = vim/bundle/vim-ref
+	url = git://github.com/thinca/vim-ref.git
+[submodule "vim/bundle/unite"]
+	path = vim/bundle/unite
+	url = git://github.com/Shougo/unite.vim.git
+[submodule "vim/bundle/vimfiler"]
+	path = vim/bundle/vimfiler
+	url = git://github.com/Shougo/vimfiler.git
+[submodule "vim/bundle/vimshell"]
+	path = vim/bundle/vimshell
+	url = git://github.com/Shougo/vimshell.git
+[submodule "vim/bundle/vimref"]
+	path = vim/bundle/vimref
+	url = git://github.com/thinca/vim-ref.git

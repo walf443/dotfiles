@@ -7,6 +7,9 @@ autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe printf('
 filetype plugin indent on
 syntax enable
 
+" init pathogen
+call pathogen#runtime_append_all_bundles()
+
 " option
 set ambiwidth=double
 set autoindent
@@ -106,7 +109,8 @@ let loaded_matchparen = 1
 let g:ref_phpmanual_path = $HOME . "/project/dotfiles/vim/ref/php_manual_ja_html/"
 
 let g:ref_alc_cmd = 'w3m -dump %s'
-call ref#register_detection('_', 'alc')
+" not work with pathogen.
+" call ref#register_detection('_', 'alc')
 
 source $VIMRUNTIME/macros/matchit.vim
 
@@ -124,5 +128,4 @@ let g:user_zen_settings = {
             \}
 
 let g:vimfiler_as_default_explorer = 1
-
 
