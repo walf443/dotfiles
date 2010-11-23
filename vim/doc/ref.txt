@@ -1,6 +1,6 @@
 *ref.txt*	Integrated reference viewer.
 
-Version: 0.4.1
+Version: 0.4.2
 Author : thinca <thinca+vim@gmail.com>
 License: Creative Commons Attribution 2.1 Japan License
          <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
@@ -29,6 +29,7 @@ be viewed by the same interface.
 
 Following sources are included in this plugin:
 - alc		(|ref-alc.txt|)
+- clojure	(|ref-clojure.txt|)
 - erlang	(|ref-erlang.txt|)
 - man		(|ref-man.txt|)
 - perldoc	(|ref-perldoc.txt|)
@@ -38,6 +39,9 @@ Following sources are included in this plugin:
 
 Requirements:
 - Vim 7.2 or later
+
+Latest version:
+http://github.com/thinca/vim-ref
 
 
 
@@ -96,8 +100,9 @@ ref#available_sources([{source-name}])		*ref#available_sources()*
 			it influences internally.
 
 ref#detect()					*ref#detect()*
-			Detect the appropriate source on current buffer.
-			Return empty string when detection failed.
+			Detect the appropriate source on current buffer.  This
+			function uses |g:ref_detect_filetype|.  Return empty
+			string when detection failed.
 
 ref#register_detection({ft}, {source})		*ref#register_detection()*
 			Register the entry to |g:ref_detect_filetype|.  If
@@ -106,13 +111,16 @@ ref#register_detection({ft}, {source})		*ref#register_detection()*
 
 The following functions are used by |ref-sources| mainly.
 
-ref#cache({source-name}, {name} [, {gather} [, {update}]])	*ref#cache()*
+ref#cache({source-name} [, {name} [, {gather} [, {update}]]])	*ref#cache()*
 			It is a function to cache a time-consuming list to
 			acquisition.  The list is cached in the automatic
 			operation in using this function. The cached list is
 			returned at the following.
 			{source-name} is a name of source.
-			{name} is a arbitrary name for identification.
+			{name} is a arbitrary name for identification.  This
+			is not a empty string.
+			When {name} is omitted, the list of {name} that has
+			been already cached is returned.
 			{gather} is one of the following.
 			1. A |Funcref| for getting the list.
 			2. A evaluatable string by |eval()|.  (Note scope.)
@@ -137,8 +145,8 @@ ref#system({expr} [, {input}])			*ref#system()*
 			result: Return code.
 			stdout: Standard output.
 			stderr: Standard error.
-			This function uses |vimproc#system()| instead if
-			|g:ref_use_vimproc| is true.
+			This function uses |vimproc#system()| instead of
+			|system()| if |g:ref_use_vimproc| is true.
 			vimproc: http://github.com/Shougo/vimproc
 
 ref#to_list({expr}, ...)			*ref#to_list()*
@@ -187,8 +195,11 @@ KEY MAPPINGS					*ref-key-mappings*
 
 <Plug>(ref-keyword)				*<Plug>(ref-keyword)*
 			Jump to reference of the keyword under the cursor.
-			When the source that should be used is not found, the
-			same behavior as |K|.
+			See also |ref-source-attr-get_keyword()|.
+			|ref#detect()| is used for the detection of the
+			source.  When the source that should be used is not
+			found, the same behavior as |K|.
+
 
 
 The following key mappings are available in |ref-viewer|.
@@ -254,11 +265,12 @@ g:ref_use_vimproc				*g:ref_use_vimproc*
 
 g:ref_detect_filetype				*g:ref_detect_filetype*
 	Specifies the |Dictionary| to detect the using source from |filetype|.
-	The key is a filetype, and the value is a source name or a |Funcref|.
-	If the value is |Funcref|, it take a filetype as argument and return
-	the source name.  If it can not detect, return empty string.  If _ key
-	exists, it is used when the filetype was not registered.  Some sources
-	register the appropriate entry on loaded.
+	This is used by |ref#detect()|.  The key is a filetype, and the value
+	is a source name or a |Funcref|.  If the value is |Funcref|, it take a
+	filetype as argument and return the source name.  If it can not
+	detect, return empty string.  If _ key exists, it is used when the
+	filetype was not registered.  Some sources register the appropriate
+	entry on loaded.
 
 g:ref_noenter					*g:ref_noenter*
 b:ref_noenter					*b:ref_noenter*
@@ -299,6 +311,7 @@ get_keyword()				*ref-source-attr-get_keyword()*
 			position.  If omitted, "expand('<cword>')" is used.
 			You can move the cursor because cursor position are
 			restored.
+			The keyword is treated as {query}.
 			The list of the form of [{source-name}, {keyword}] can
 			be returned.  In this case, the keyword is opened by
 			the specified source.
@@ -327,6 +340,12 @@ autoload/ref.vim is loaded, and the return value is registered as source.
 
 ==============================================================================
 CHANGELOG					*ref-changelog*
+
+0.4.2	2010-10-31
+	- Display an error when a body is empty.
+	- Improved the handling of an error.
+	- The list of {name} was able to be taken by |ref#cache()|.
+	- Improved the command line completion.
 
 0.4.1	2010-06-04
 	- |ref-source-attr-get_body()| can return a |Dictionary|.
