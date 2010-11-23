@@ -38,6 +38,8 @@ set encoding=utf-8
 set statusline=%<%f\ %m%r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v\ %l/%L
 set laststatus=2
 
+colorscheme wambat
+
 " mapping
 nnoremap <Leader>ev  <C-w>s:<C-u>edit $MYVIMRC<Enter>
 nnoremap <Leader>ez  <C-w>s:<C-u>edit $MYZSHRC<Enter>
