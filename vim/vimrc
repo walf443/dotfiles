@@ -53,6 +53,7 @@ nnoremap    [unite]   <Nop>
 nmap    f [unite]
 nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file_mru file_rec bookmark buffer_tab<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=files buffer_tab file_mru bookmark file_rec<CR>
+nnoremap <silent> [unite]o  :<C-u>Unite -buffer-name=files outline buffer_tab file_mru<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite source<CR>
 let g:unite_source_file_mru_limit = 200
 let g:unite_enable_start_insert = 1
