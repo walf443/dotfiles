@@ -22,3 +22,6 @@
 [submodule "vim/bundle/unite_mark"]
 	path = vim/bundle/unite_mark
 	url = git://github.com/tacroe/unite-mark.git
+[submodule "vim/bundle/unite_git_grep"]
+	path = vim/bundle/unite_git_grep
+	url = git://github.com/sgur/unite-git_grep.git
