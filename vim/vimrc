@@ -61,7 +61,7 @@ let g:unite_enable_ignore_case = 1
 let g:unite_enable_smart_case = 1
 let g:unite_source_file_mru_time_format = '(%y/%m/%d %H:%M) '
 let g:unite_source_directory_mru_time_format = '(%y/%m/%d %H:%M) '
-let g:unite_source_file_rec_max_depth = 3
+let g:unite_source_file_rec_max_depth = 5
 
 cnoremap <expr> /  getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ?  getcmdtype() == '?' ? '\?' : '?'
