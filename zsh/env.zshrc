@@ -45,8 +45,13 @@ export SAVEHIST=1000000
 
 # prompt
 export PROMPT="%n%# "
-[ -n "${REMOTEHOST}${SSH_CONNECTION}" ] &&
-  export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
+if [ -n "${REMOTEHOST}${SSH_CONNECTION}" ]
+then
+    if [ "${HOST%%.*}" = "$ENV{USER}" ]
+    then
+        export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
+    fi
+fi
 
 export PYTHONSTARTUP=$HOME/.pythonrc.py
 
