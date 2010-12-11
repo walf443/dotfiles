@@ -25,3 +25,6 @@
 [submodule "vim/bundle/unite_git_grep"]
 	path = vim/bundle/unite_git_grep
 	url = git://github.com/sgur/unite-git_grep.git
+[submodule "vim/bundle/unite_history"]
+	path = vim/bundle/unite_history
+	url = git://github.com/thinca/vim-unite-history.git
