@@ -69,3 +69,8 @@ function get_ipv4_tail () {
     echo $tail
 }
 
+function jman () {
+    opt=$*
+    LANG=ja_JP.UTF-8 man $opt
+}
+
