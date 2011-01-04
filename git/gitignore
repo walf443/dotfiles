@@ -1,6 +1,5 @@
 *.o
 *.swf
-*.swp
 .DS_Store
 *.bak
 .svn/
