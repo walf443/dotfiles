@@ -13,9 +13,6 @@
 [submodule "vim/bundle/zencoding"]
 	path = vim/bundle/zencoding
 	url = git://github.com/mattn/zencoding-vim.git
-[submodule "vim/bundle/unite_tags"]
-	path = vim/bundle/unite_tags
-	url = git://github.com/tsukkee/unite-tags.git
 [submodule "vim/bundle/unite_outline"]
 	path = vim/bundle/unite_outline
 	url = git://github.com/h1mesuke/unite-outline.git
@@ -28,3 +25,6 @@
 [submodule "vim/bundle/unite_history"]
 	path = vim/bundle/unite_history
 	url = git://github.com/thinca/vim-unite-history.git
+[submodule "vim/bundle/surround"]
+	path = vim/bundle/surround
+	url = git://github.com/tpope/vim-surround.git
