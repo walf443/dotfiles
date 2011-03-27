@@ -1,10 +1,17 @@
 # vim: ft=zsh:
 alias spec='spec -c -Du -fs'
 
-if where tscreen > /dev/null
+if test ! -z "$TMUX"
 then
-    alias screen=tscreen
-    alias s=tscreen
+    function s() {
+        tmux new-window "$*"
+    };
 else
-    alias s=screen
+    if where tscreen > /dev/null
+    then
+        alias screen=tscreen
+        alias s=tscreen
+    else
+        alias s=screen
+    fi
 fi
