@@ -1,15 +1,15 @@
 setup: $(HOME)/.zshenv \
-	   $(HOME)/.zshrc \
-	   $(HOME)/.zshrc_custom \
-	   $(HOME)/.gitconfig \
-	   $(HOME)/.screenrc \
-	   $(HOME)/.tscreenrc \
-	   $(HOME)/.vimrc \
-	   $(HOME)/.vim \
-	   $(HOME)/.irbrc \
-	   $(HOME)/.pythonrc.py \
-	   $(HOME)/.module-setup
-
+		$(HOME)/.zshrc \
+		$(HOME)/.zshrc_custom \
+		$(HOME)/.gitconfig \
+		$(HOME)/.screenrc \
+		$(HOME)/.tmux.conf \
+		$(HOME)/.tscreenrc \
+		$(HOME)/.vimrc \
+		$(HOME)/.vim \
+		$(HOME)/.irbrc \
+		$(HOME)/.pythonrc.py \
+		$(HOME)/.module-setup
 
 $(HOME)/.zshenv:
 	ln -s `pwd`/zsh/zshenv $(HOME)/.zshenv
