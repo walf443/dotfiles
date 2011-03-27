@@ -26,6 +26,9 @@ $(HOME)/.gitconfig:
 $(HOME)/.screenrc:
 	ln -sf `pwd`/screen/screenrc $(HOME)/.screenrc
 
+$(HOME)/.tmux.conf:
+	ln -sf `pwd`/tmux/tmux.conf $(HOME)/.tmux.conf
+
 $(HOME)/.tscreenrc:
 	ln -sf `pwd`/screen/screenrc $(HOME)/.tscreenrc
 
