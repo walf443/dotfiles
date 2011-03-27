@@ -6,6 +6,7 @@ then
     function s() {
         tmux new-window "$*"
     };
+    alias screen=s
 else
     if where tscreen > /dev/null
     then
