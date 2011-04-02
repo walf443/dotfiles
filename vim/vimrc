@@ -85,9 +85,9 @@ inoremap <C-A>  <ESC>^i
 noremap <C-E>   <END>
 inoremap <C-E>  <END>
 
-inoremap <expr> ,df  strftime('%Y-%m-%d %H:%M:%S')
-inoremap <expr> ,dd  strftime('%Y-%m-%d')
-inoremap <expr> ,dt  strftime('%H:%M:%S')
+iabbrev <expr> df,  strftime('%Y-%m-%d %H:%M:%S')
+iabbrev <expr> dd,  strftime('%Y-%m-%d')
+iabbrev <expr> dt,  strftime('%H:%M:%S')
 
 nnoremap gc `[v`]
 vnoremap gc :<C-u>normal gc<Enter>
