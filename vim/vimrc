@@ -56,7 +56,8 @@ nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=files buffer_tab file_mru<C
 nnoremap <silent> [unite]t  :<C-u>Unite -buffer-name=files tab buffer file_mru<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]o  :<C-u>Unite -buffer-name=files outline buffer_tab file_mru<CR>
-nnoremap <silent> [unite]s  :<C-u>Unite -buffre-name=source   source<CR>
+nnoremap <silent> [unite]p  :<C-u>Unite -buffer-name=perldoc ref/perldoc<CR>
+nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=source   source<CR>
 
 let g:unite_source_file_mru_limit = 200
 let g:unite_enable_start_insert = 1
