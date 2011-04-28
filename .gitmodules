@@ -31,3 +31,12 @@
 [submodule "vim/bundle/git"]
 	path = vim/bundle/git
 	url = git://github.com/motemen/git-vim.git
+[submodule "vim/bundle/neocomplcache"]
+	path = vim/bundle/neocomplcache
+	url = git://github.com/Shougo/neocomplcache.git
+[submodule "vim/bundle/quickrun"]
+	path = vim/bundle/quickrun
+	url = git://github.com/thinca/vim-quickrun.git
+[submodule "vim/bundle/unite-history"]
+	path = vim/bundle/unite-history
+	url = git://github.com/thinca/vim-unite-history.git
