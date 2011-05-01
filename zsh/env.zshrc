@@ -12,8 +12,8 @@ fi
 
 # export MYSQL_PS1='[34m[\d][00m > '
 
-export EDITOR=$SYSTEM_PREFIX/bin/vim
-export PAGER="$SYSTEM_PREFIX/bin/lv -c"
+export EDITOR=vim
+export PAGER="lv -c"
 export EMAIL=walf443@gmail.com
 export MYCHANGELOG_MEMO=$HOME/ChangeLog
 
