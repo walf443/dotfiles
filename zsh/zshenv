@@ -19,5 +19,17 @@ fi
 PERLBREWRC="$HOME/perl5/perlbrew/etc/bashrc"
 if test -f "$PERLBREWRC"
 then
-    source "$HOME/perl5/perlbrew/etc/bashrc"
+    source "$PERLBREWRC"
+fi
+
+PYTHONBREWRC="$HOME/.pythonbrew/etc/bashrc"
+if test -f "$PYTHONBREWRC"
+then
+    source "$PYTHONBREWRC"
+fi
+
+RVMRC="/Users/yoshimi/.rvm/scripts/rvm"
+if test -f "$RVMRC"
+then
+    source "$RVMRC"
 fi
