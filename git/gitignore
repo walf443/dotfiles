@@ -1,4 +1,5 @@
 *.o
+*.os
 *.swp
 .DS_Store
 *.bak
