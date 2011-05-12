@@ -19,6 +19,7 @@ colors
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
+zstyle ':completion:*' use-cache true
 autoload -U compinit ; compinit
 autoload -U url-quote-magic
 zle -N self-insert url-quote-magic
