@@ -26,3 +26,5 @@
 [user]
 	name = Keiji, Yoshimi
 	email = walf443@gmail.com
+[push]
+	default = current
