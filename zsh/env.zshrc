@@ -33,7 +33,7 @@ then
 #    export IPHONE_SDK=/Developer/Platforms/${IPHONE_PLATFORM}.platform/Developer/SDKs/${IPHONE_PLATFORM}${IPHONE_VERSION}.sdk/System/Library/Frameworks/
 fi
 
-export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
 export MANPATH=$MANPATH:$SYSTEM_PREFIX/man
 # 1セクションが3とかより優先されるとウザいのです
 export MANSECT=3:2:1:1p:3p:8:2:4:5:6:7:9:0p:tcl:n:l:p:o
