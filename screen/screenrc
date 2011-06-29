@@ -12,7 +12,7 @@ maxwin 10
 # status line
 hardstatus ignore "%w | %h"
 # hardstatus alwayslastline " %`%-w%{=b bw}%n %t%{-}%+w"
-caption always "%{= wbd} %-w%{=bu bw}%n %t%{-}%+w%40L %{=b bw}%y/%m/%d %{=b bw}%c"
+caption always "%{= wbd} %{=b dr}@%H%{-} %-w%{=bu bw}%n %t%{-}%+w%40L %{=b bw}%y/%m/%d %{=b bw}%c"
 
 # resize
 bind r eval 'echo "Resize window"' 'command -c resize'
