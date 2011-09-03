@@ -1,2 +1,2 @@
 source $HOME/.screenrc
-escape ^y^y
+escape ^g^g
