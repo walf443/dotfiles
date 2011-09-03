@@ -139,3 +139,5 @@ let g:user_zen_settings = {
 
 let g:vimfiler_as_default_explorer = 1
 let g:GtagsCscope_Auto_Load = 0
+
+let g:neocomplcache_enable_at_startup = 1
