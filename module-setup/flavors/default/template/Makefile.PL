@@ -10,10 +10,8 @@ readme_from 'lib/[% module_path %].pm';
 tests_recursive 't';
 author_tests 'xt';
 
-build_requires 'Test::More';
-build_requires 'Test::LoadAllModules';
-build_requires 'Module::Install::ReadmeFromPod';
-use_test_base;
-auto_include;
+test_requires 'Test::More';
+test_requires 'Test::LoadAllModules';
+configure_requires 'Module::Install::ReadmeFromPod';
 auto_set_repository;
 WriteAll;
