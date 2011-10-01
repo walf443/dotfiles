@@ -51,7 +51,7 @@ nnoremap <C-h>      :<C-u>Ref <C-R>=ref#detect()<CR><Space>
 " unite
 nnoremap    [unite]   <Nop>
 nmap    f [unite]
-nnoremap <silent> [unite]f  :<C-u>Unite -buffer-name=files file_mru file_rec bookmark buffer_tab<CR>
+nnoremap <silent> [unite]f  :<C-u>:split %:p:h<CR>
 nnoremap <silent> [unite]b  :<C-u>Unite -buffer-name=files buffer_tab file_mru<CR>
 nnoremap <silent> [unite]t  :<C-u>Unite -buffer-name=files tab buffer file_mru<CR>
 nnoremap <silent> [unite]r  :<C-u>Unite -buffer-name=register register<CR>
@@ -138,6 +138,7 @@ let g:user_zen_settings = {
             \}
 
 let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_split_action = "split"
 let g:GtagsCscope_Auto_Load = 0
 
 let g:neocomplcache_enable_at_startup = 1
