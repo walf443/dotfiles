@@ -2,6 +2,7 @@
 defutf8 on
 escape ^t^t
 idle 3600
+maptimeout 0
 autodetach on
 startup_message off
 defscrollback 10000
