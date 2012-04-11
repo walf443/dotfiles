@@ -40,3 +40,9 @@
 [submodule "vim/bundle/unite-history"]
 	path = vim/bundle/unite-history
 	url = git://github.com/thinca/vim-unite-history.git
+[submodule "vim/bundle/vinarise"]
+	path = vim/bundle/vinarise
+	url = git://github.com/Shougo/vinarise.git
+[submodule "vim/bundle/nerdtree"]
+	path = vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git

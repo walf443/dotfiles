@@ -1,5 +1,6 @@
 # vim: ft=zsh:
 alias spec='spec -c -Du -fs'
+alias be='bundle exec'
 
 if test ! -z "$TMUX"
 then

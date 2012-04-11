@@ -33,3 +33,5 @@ if test -f "$RVMRC"
 then
     source "$RVMRC"
 fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
