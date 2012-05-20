@@ -28,3 +28,5 @@
 	email = walf443@gmail.com
 [push]
 	default = current
+[github]
+	user = walf443
