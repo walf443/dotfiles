@@ -120,7 +120,7 @@ let loaded_matchparen = 1
 
 let g:ref_phpmanual_path = $HOME . "/project/dotfiles/vim/ref/php_manual_ja_html/"
 
-let g:ref_alc_cmd = 'w3m -dump %s'
+" let g:ref_alc_cmd = 'w3m -dump %s'
 " not work with pathogen.
 " call ref#register_detection('_', 'alc')
 
