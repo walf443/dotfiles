@@ -59,7 +59,7 @@ nnoremap <silent> [unite]o  :<C-u>Unite -buffer-name=files outline buffer_tab fi
 nnoremap <silent> [unite]p  :<C-u>Unite -buffer-name=perldoc ref/perldoc<CR>
 nnoremap <silent> [unite]s  :<C-u>Unite -buffer-name=source   source<CR>
 
-nnoremap nt :<C-u>NERDTree<CR>
+nnoremap NT :<C-u>NERDTree<CR>
 
 let g:unite_source_file_mru_limit = 200
 let g:unite_enable_start_insert = 1
