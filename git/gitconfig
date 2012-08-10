@@ -12,7 +12,7 @@
   svf = svn fetch
   svr = svn rebase
   svd = svn dcommit --rmdir
-  new = whatchanged HEAD@{1}..HEAD --reverse --stat
+  new = whatchanged HEAD@{2}..HEAD --reverse --stat
 
 [color]
   diff = auto
