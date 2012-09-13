@@ -57,7 +57,7 @@ vim/tags/ppport.tags:
 	ctags -f vim/tags/ppport.tags --language-force=c `perldoc -ml Devel::PPPort`
 
 phpref:
-	wget http://jp.php.net/get/php_manual_ja.tar.gz/from/this/mirror
+	curl -o php_manual_ja.tar.gz http://jp.php.net/get/php_manual_ja.tar.gz/from/this/mirror
 	tar xvzf php_manual_ja.tar.gz
 	test -e vim/ref/php_manual_ja_html && rm -rf vim/ref/php_manual_ja_html/
 	mv html vim/ref/php_manual_ja_html

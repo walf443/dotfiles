@@ -46,3 +46,6 @@
 [submodule "vim/bundle/vim-ref-ri"]
 	path = vim/bundle/vim-ref-ri
 	url = git://github.com/taka84u9/vim-ref-ri.git
+[submodule "vim/bundle/vim-css3-syntax"]
+	path = vim/bundle/vim-css3-syntax
+	url = git://github.com/hail2u/vim-css3-syntax.git
