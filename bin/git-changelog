@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+
+require 'time'
+
+def get_tag_date(version)
+    tagged_commit =  `git show #{version}`
+    tagged_commit.each_line do |l|
+      if l =~ /^Date:\s+(.+)/
+        return Time.parse($1)
+      end
+    end
+end
+
+version_changelog = {}
+version = "HEAD"
+version_changelog[version] ||= {}
+version_changelog[version][:date]  = get_tag_date("HEAD")
+version_changelog[version][:logs]  = []
+
+`git log --decorate --oneline`.each_line do |line|
+  sha1, *rest = line.split(" ")
+  log = rest.join(" ")
+ # p [sha1, log]
+  #
+  if log =~ /^\([^\)]*?tag: ([^, \)]+)[^\)]*?\)/
+    version = $1
+    version_changelog[version] ||= {}
+    version_changelog[version][:date] = get_tag_date(version)
+  end
+
+  version_changelog[version] ||= {}
+  version_changelog[version][:logs] ||= []
+
+  version_changelog[version][:logs].push(log)
+end
+
+require 'pp'
+version_changelog.map {|k,v| [v[:date], [k, v]]}.sort {|a,b| b[0] <=> a[0] }.each do |version_log|
+  version, data = *version_log[1]
+  puts "#{version}\t\t\t\t#{data[:date]}"
+  puts "------------------------------------------------------------------------"
+  data[:logs].each do |log|
+    puts " - #{log}"
+  end
+  puts ""
+end
