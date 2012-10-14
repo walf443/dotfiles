@@ -1,4 +1,4 @@
-set dictionary+=~/.vim/dict/perl.dict
+setlocal dictionary+=~/.vim/dict/perl.dict
 
 iabbrev self, my ($self, ) = @_;<Left><Left><Left><Left><Left><Left><Left><C-R>=Eatchar('\s')<CR>
 iabbrev selfs, my $self = shift;<CR><C-R>=Eatchar('\s')<CR>

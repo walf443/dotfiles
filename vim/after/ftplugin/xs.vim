@@ -1,4 +1,3 @@
-
-set tags+=~/.vim/tags/perlapi.tags
-set tags+=~/.vim/tags/ppport.tags
+setlocal tags+=~/.vim/tags/perlapi.tags
+setlocal tags+=~/.vim/tags/ppport.tags
 
