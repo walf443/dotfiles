@@ -37,7 +37,7 @@ end
 require 'pp'
 version_changelog.map {|k,v| [v[:date], [k, v]]}.sort {|a,b| b[0] <=> a[0] }.each do |version_log|
   version, data = *version_log[1]
-  puts "#{version}\t\t\t\t#{data[:date]}"
+  puts "#{version}\t\t\t\t#{data[:date].strftime('%Y-%m-%d %H:%M:%S %z')}"
   puts "------------------------------------------------------------------------"
   data[:logs].each do |log|
     puts " - #{log}"
