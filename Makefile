@@ -1,6 +1,7 @@
 setup: $(HOME)/.zshenv \
 		$(HOME)/.zshrc \
 		$(HOME)/.zshrc_custom \
+		$(HOME)/.inputrc \
 		$(HOME)/.gitconfig \
 		$(HOME)/.screenrc \
 		$(HOME)/.tmux.conf \
@@ -19,6 +20,9 @@ $(HOME)/.zshrc:
 
 $(HOME)/.zshrc_custom:
 	touch $(HOME)/.zshrc_custom
+
+$(HOME)/.inputrc:
+	ln -s `pwd`/inputrc $(HOME)/.inputrc
 
 $(HOME)/.gitconfig:
 	ln -sf `pwd`/git/gitconfig $(HOME)/.gitconfig
