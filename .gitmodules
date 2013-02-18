@@ -52,3 +52,9 @@
 [submodule "vim/bundle/play2vim"]
 	path = vim/bundle/play2vim
 	url = git://github.com/gre/play2vim.git
+[submodule "vim/bundle/localrc"]
+	path = vim/bundle/localrc
+	url = git://github.com/thinca/vim-localrc.git
+[submodule "vim/bundle/perl-local-lib-path"]
+	path = vim/bundle/perl-local-lib-path
+	url = git://github.com/y-uuki/perl-local-lib-path.vim.git
