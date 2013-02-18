@@ -27,3 +27,8 @@ iabbrev ctdt, container('dt')-><C-R>=Eatchar('\s')<CR>
 
 " testing
 iabbrev subtest, subtest "" => sub {<CR><CR>done_testing;<CR>};<Up><Up><Up><Home><Right><Right><Right><Right><Right><Right><Right><Right><Right><C-R>=Eatchar('\s')<CR>
+
+" for gf with "Foo::Bar->" or "qw(Foo::Bar)"
+" SEE ALSO: http://subtech.g.hatena.ne.jp/motemen/20110208/1297142489
+setlocal includeexpr=substitute(substitute(substitute(v:fname,'::','/','g'),'[-/]\\?$','.pm',''),'^q[qw]\\?/','','')
+PerlLocalLibPath
