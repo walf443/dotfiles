@@ -59,3 +59,6 @@ hi def link sassEach            PreProc
 hi def link sassPlaceholderChar Special
 hi def link sassPlaceholder     Identifier
 
+
+setlocal iskeyword+=$
+setlocal iskeyword+=-
