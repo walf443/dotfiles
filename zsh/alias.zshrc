@@ -2,6 +2,8 @@
 alias spec='spec -c -Du -fs'
 alias be='bundle exec'
 
+alias ag="ag --pager 'less -R' "
+
 if test ! -z "$TMUX"
 then
     function s() {
@@ -17,3 +19,4 @@ else
         alias s=screen
     fi
 fi
+
