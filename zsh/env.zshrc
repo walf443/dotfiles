@@ -49,5 +49,6 @@ export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
 export PYTHONSTARTUP=$HOME/.pythonrc.py
 
 export GOPATH=$HOME/project/go/
+export PATH=$PATH:$GOPATH/bin
 
 tty -s && stty stop undef

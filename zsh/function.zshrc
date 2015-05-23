@@ -1,5 +1,3 @@
-source $HOME/project/dotfiles/zsh/functions/*
-
 function memo() {
     screen $EDITOR $MYCHANGELOG_MEMO
 }

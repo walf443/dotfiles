@@ -1,5 +1,6 @@
 export MYZSHRC="$0"
 export ZSH_CONFIG_DIR="$HOME/project/dotfiles/zsh"
+export LC_ALL=ja_JP.UTF-8
 
 # 独自パッチを保持しつづけるのもしんどいので
 # 管理下じゃないファイル1つのデフォルトで読むようにする
@@ -46,3 +47,7 @@ then
     eval "$( rbenv init - )"
 fi
 
+if which boot2docker > /dev/null
+then
+    eval "$( boot2docker shellinit 2>/dev/null )"
+fi

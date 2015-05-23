@@ -14,7 +14,7 @@ _show_dirname_on_screen_title() {
 
 _set_env_vcs_stat() {
     VCS_STAT=()
-    LANG=en_US.UTF-8 vcs_info
+    LANG=ja_JP.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && VCS_STAT="$vcs_info_msg_0_"
 }
 
