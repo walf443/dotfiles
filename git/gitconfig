@@ -2,7 +2,7 @@
   ci = commit -v
   up = !sh -c 'git remote update && git config --get-regexp svn-remote > /dev/null && git svn fetch'
   co = checkout
-  br = branch
+    br = branch --sort=authordate
   st = status
   di = diff
   df = diff --no-prefix
@@ -14,6 +14,13 @@
   svd = svn dcommit --rmdir
   new = whatchanged HEAD@{2}..HEAD --reverse --stat
 
+[url "git@github.com:"]
+    pushinsteadof = "https://github.com/"
+    pushinsteadof = "git://github.com/"
+
+[url "git@github.com:walf443/"]
+        insteadof = gh:
+
 [color]
   diff = auto
   status = auto
@@ -24,7 +31,7 @@
   editor = "vim -u NONE -i NONE -N -c 'syntax on' \"+e ++enc=utf-8\"" # force encoding utf-8 in log message.
   pager = "lv -c"
 [user]
-	name = Keiji, Yoshimi
+	name = Keiji Yoshimi
 	email = walf443@gmail.com
 [push]
 	default = current
