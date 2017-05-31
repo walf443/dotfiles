@@ -1,47 +1,46 @@
 " autocmd
 autocmd!
 
-if has('vim_starting')
-    set nocompatible               " Be iMproved
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
+if &compatible
+  set nocompatible               " Be iMproved
 endif
 
-call neobundle#begin(expand('~/.vim/bundle'))
+" Required:
+set runtimepath+=/Users/yoshimin/src/github.com/Shougo/dein.vim
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Required:
+if dein#load_state('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
+  call dein#begin('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
 
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'tsukkee/unite-tag'
-NeoBundle 'basyura/unite-rails'
-NeoBundle 'Shougo/vimproc', {
-  \ 'build' : {
-    \ 'windows' : 'make -f make_mingw32.mak',
-    \ 'cygwin' : 'make -f make_cygwin.mak',
-    \ 'mac' : 'make -f make_mac.mak',
-    \ 'unix' : 'make -f make_unix.mak',
-  \ },
-  \ }
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'hail2u/vim-css3-syntax'
-NeoBundle 'thinca/vim-quickrun'
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
 
-call neobundle#end()
+  " You can specify revision/branch/tag.
+  call dein#add('Shougo/vimshell')
+  call dein#add('Shougo/unite.vim')
+  call dein#add('Shougo/vimproc')
+  call dein#add('thinca/vim-ref')
+
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
+
+" Required:
+filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
 
 " set bufname to screen's title
 autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | silent! exe printf('!echo -n "\ek%%:t[%d]\e\\"', winnr("$")) | endif
 
 filetype plugin indent on
 syntax enable
-
-NeoBundleCheck
 
 " option
 set ambiwidth=double
