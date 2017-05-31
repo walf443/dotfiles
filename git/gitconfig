@@ -37,3 +37,5 @@
 	default = current
 [github]
 	user = walf443
+[ghq]
+	root = ~/src
