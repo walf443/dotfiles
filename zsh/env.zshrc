@@ -13,7 +13,7 @@ fi
 # export MYSQL_PS1='[34m[\d][00m > '
 
 export EDITOR=vim
-export PAGER="lv -c"
+export PAGER="less -R"
 export EMAIL=walf443@gmail.com
 export MYCHANGELOG_MEMO=$HOME/ChangeLog
 
@@ -48,7 +48,7 @@ export PROMPT="%{[37m%}%n@${HOST%%.*}%# "
 
 export PYTHONSTARTUP=$HOME/.pythonrc.py
 
-export GOPATH=$HOME/project/go/
+export GOPATH=$HOME
 export PATH=$PATH:$GOPATH/bin
 
 tty -s && stty stop undef

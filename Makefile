@@ -16,7 +16,7 @@ $(HOME)/.zshenv:
 	ln -s `pwd`/zsh/zshenv $(HOME)/.zshenv
 
 $(HOME)/.zshrc:
-	touch  $(HOME)/.zshrc
+	touch $(HOME)/.zshrc
 
 $(HOME)/.zshrc_custom:
 	touch $(HOME)/.zshrc_custom

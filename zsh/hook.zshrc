@@ -8,10 +8,6 @@ then
     zstyle ':vcs_info:*' actionformats '%s[%b|%a]'
 fi
 
-_show_dirname_on_screen_title() {
-  echo -ne "\ek$(basename $(pwd))\e\\"
-}
-
 _set_env_vcs_stat() {
     VCS_STAT=()
     LANG=ja_JP.UTF-8 vcs_info
@@ -25,6 +21,10 @@ _set_env_git_current_branch() {
 
 _update_rprompt () {
   RPROMPT=$(print "%{\e[34m%}[ %(5~,%-2~/.../%2~,%~) %{\e[32m%}$VCS_STAT%{\e[34m%} ]%{\e[m%}" )
+}
+
+_show_dirname_on_tmux_window_name () {
+  tmux rename-window $(basename $(pwd))
 }
 
 _update_rprompt
@@ -41,11 +41,17 @@ if [ "$TERM" = "screen" ]; then
             prefix=$(echo "$cmd[2]" | cut -d'.' -f1)
             if test "$prefix" = "192"
             then
-                echo -ne "\ek[$(echo "$cmd[2]" | cut -d'.' -f4)]\e\\"
+                tmux rename-window $(echo "$cmd[2]" | cut -d'.' -f4)
             else
-                echo -ne "\ek[$cmd[2]]\e\\"
+                tmux rename-window $cmd[2]
             fi
             ;;
+        ghq)
+            if test "$cmd[2]" = "look"
+            then
+                tmux rename-window $(basename $cmd[3])
+            fi
+
     esac
 
     if test $USE_VCS_INFO
@@ -54,7 +60,6 @@ if [ "$TERM" = "screen" ]; then
     fi
   }
   precmd() {
-    _show_dirname_on_screen_title
     if test $USE_VCS_INFO
     then
         _set_env_vcs_stat
@@ -65,7 +70,7 @@ if [ "$TERM" = "screen" ]; then
   }
 
   chpwd () {
-    _show_dirname_on_screen_title
+    _show_dirname_on_tmux_window_name
     _update_rprompt
   }
 fi

@@ -17,10 +17,13 @@ if dein#load_state('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
   call dein#add('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
 
   " You can specify revision/branch/tag.
+  call dein#add('tpope/vim-surround')
+
   call dein#add('Shougo/vimshell')
   call dein#add('Shougo/unite.vim')
   call dein#add('Shougo/vimproc')
   call dein#add('thinca/vim-ref')
+  call dein#add('slim-template/vim-slim')
 
   " Required:
   call dein#end()
