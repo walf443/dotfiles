@@ -1,6 +1,7 @@
 # vim: ft=zsh:
 alias spec='spec -c -Du -fs'
 alias be='bundle exec'
+alias dc='docker-compose'
 
 alias ag="ag --pager 'less -R' "
 
@@ -15,6 +16,7 @@ function git-select-branch() {
 alias -g H='$(git-select-hash)'
 
 alias -g B='$(git-select-branch)'
+
 
 if test ! -z "$TMUX"
 then
