@@ -9,6 +9,7 @@ setup: $(HOME)/.zshenv \
 		$(HOME)/.vimrc \
 		$(HOME)/.vim \
 		$(HOME)/.irbrc \
+		setup-config \
 		$(HOME)/.pythonrc.py \
 		$(HOME)/.module-setup
 
@@ -50,6 +51,10 @@ $(HOME)/.pythonrc.py:
 
 $(HOME)/.module-setup:
 	ln -sf `pwd`/module-setup $(HOME)/.module-setup
+
+setup-config:
+	mkdir -p $(HOME)/.config
+	ln -sf `pwd`/karabiner $(HOME)/.config/karabiner
 
 maketags: vim/tags/perlapi.tags \
 	vim/tags/ppport.tags
