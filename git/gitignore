@@ -6,3 +6,5 @@
 .svn/
 **/tags-ja
 .idea/
+Assets/Plugins/Editor/JetBrains.meta
+Assets/Plugins/Editor/JetBrains
