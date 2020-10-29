@@ -88,3 +88,14 @@ zle -N peco-find-file
 tty -s && stty start undef # C-q
 bindkey '^q' peco-find-file
 
+function peco-ghq-cd () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-ghq-cd
+bindkey '^]' peco-ghq-cd
+
