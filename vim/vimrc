@@ -6,15 +6,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/yoshimin/src/github.com/Shougo/dein.vim
+set runtimepath+=$HOME/src/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
-  call dein#begin('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
+if dein#load_state("$HOME/src/github.com/Shougo/dein.vim/")
+  call dein#begin("$HOME/src/github.com/Shougo/dein.vim/")
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/yoshimin/src/github.com/Shougo/dein.vim/')
+  call dein#add("$HOME/src/github.com/Shougo/dein.vim/")
 
   " You can specify revision/branch/tag.
   call dein#add('tpope/vim-surround')
