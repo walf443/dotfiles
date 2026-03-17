@@ -35,7 +35,7 @@ function gitnew() {
     else
         # full option.
     fi
-    git whatchanged $branch@{1}..$branch --reverse --stat $opt
+    git log $branch@{1}..$branch --reverse --stat $opt
 }
 
 function sshs() {
@@ -99,3 +99,23 @@ function peco-ghq-cd () {
 zle -N peco-ghq-cd
 bindkey '^]' peco-ghq-cd
 
+function wtnew() {
+    local branch=$1
+    if [ -z "$branch" ]; then
+        echo "Usage: wtnew <branch>"
+        return 1
+    fi
+
+    git-wt "$branch"
+
+    local wt_path=$(git worktree list --porcelain | grep -A0 "worktree.*${branch}" | sed 's/worktree //')
+    if [ -z "$wt_path" ]; then
+        echo "Failed to find worktree for $branch"
+        return 1
+    fi
+
+    tmux new-window -c "$wt_path" -n "$branch"
+    tmux split-window -h -c "$wt_path"
+    tmux send-keys 'claude' Enter
+    tmux select-pane -L
+}

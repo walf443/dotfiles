@@ -8,3 +8,4 @@
 .idea/
 Assets/Plugins/Editor/JetBrains.meta
 Assets/Plugins/Editor/JetBrains
+.claude/settings.local.json
