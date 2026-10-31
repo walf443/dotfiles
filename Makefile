@@ -11,7 +11,8 @@ setup: $(HOME)/.zshenv \
 		$(HOME)/.irbrc \
 		setup-config \
 		$(HOME)/.pythonrc.py \
-		$(HOME)/.module-setup
+		$(HOME)/.module-setup \
+		$(HOME)/.config/herdr/config.toml
 
 $(HOME)/.zshenv:
 	ln -s `pwd`/zsh/zshenv $(HOME)/.zshenv
@@ -21,6 +22,10 @@ $(HOME)/.zshrc:
 
 $(HOME)/.zshrc_custom:
 	touch $(HOME)/.zshrc_custom
+
+$(HOME)/.config/herdr/config.toml:
+	mkdir -p $(HOME)/.config/herdr/
+	ln -sf `pwd`/herdr/config.toml $(HOME)/.config/herdr/config.toml
 
 $(HOME)/.inputrc:
 	ln -s `pwd`/inputrc $(HOME)/.inputrc

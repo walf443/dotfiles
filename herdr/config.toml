@@ -1,0 +1,89 @@
+onboarding = false
+# herdr configuration
+# Ported from ~/.tmux.conf (~/project/dotfiles/tmux/tmux.conf) where an
+# equivalent exists. See the bottom of this file for tmux bindings that
+# have no direct herdr equivalent (as of herdr 0.7.1).
+
+[keys]
+# tmux: unbind C-b / set -g prefix ^T
+prefix = "ctrl+t"
+
+# tmux: unbind ^D / bind ^D detach
+# (moved off the default prefix+q so close_pane below can use "q")
+detach = "prefix+ctrl+d"
+
+# tmux: unbind q / bind q kill-pane
+close_pane = "prefix+q"
+
+# tmux: unbind v / bind v split-window -h -c "#{pane_current_path}"
+# (-h = side-by-side / vertical divider). Matches herdr's default already,
+# kept explicit for clarity.
+split_vertical = "prefix+v"
+
+# tmux: unbind s / bind s split-window -c "#{pane_current_path}"
+# (no -h = stacked top/bottom). herdr default for this is prefix+minus.
+split_horizontal = "prefix+s"
+
+# tmux: unbind ^R / bind ^R source-file ~/.tmux.conf
+# herdr reloads its own running config the same way.
+reload_config = "prefix+ctrl+r"
+
+# tmux: bind-key J choose-tree -w "join-pane -h -s '%%'"
+# No tree-picker + join in herdr. `goto` (jump/search across panes) is the
+# closest built-in action, moved here to keep the same trigger key.
+goto = "prefix+shift+j"
+
+# tmux: unbind k/j/h/l / bind {k,j,h,l} select-pane -{U,D,L,R}
+# Already herdr's defaults, kept commented for reference:
+# focus_pane_left  = "prefix+h"
+# focus_pane_down  = "prefix+j"
+# focus_pane_up    = "prefix+k"
+# focus_pane_right = "prefix+l"
+
+# tmux: unbind c / bind c new-window
+# Already herdr's default (new_tab = "prefix+c"), no change needed.
+
+# tmux: unbind ^K/^J/^H/^L / bind -r ^{K,J,H,L} resize-pane -{U,D,L,R}
+# herdr has no direct-repeat resize keys; it uses a modal resize instead,
+# already bound by default:
+# resize_mode = "prefix+r"
+
+[terminal]
+# tmux: split-window ... -c "#{pane_current_path}"
+# New panes inherit the current pane's working directory.
+new_cwd = "follow"
+
+[experimental]
+# tmux: unbind t is unset / bind t send-prefix (forwards ^T into a nested
+# tmux). herdr already reserves "press prefix twice" to send a literal
+# prefix keystroke through to the pane, so no config is needed for this —
+# it's the built-in equivalent. allow_nested below is only for running an
+# inner herdr instance managed by the outer one (different feature).
+allow_nested = true
+
+# ---------------------------------------------------------------
+# Not carried over — no herdr equivalent found in 0.7.1:
+# ---------------------------------------------------------------
+# - set-window-option -g mode-keys vi        (no copy-mode key config exposed)
+# - set-option -g default-terminal screen    (herdr manages the PTY itself)
+# - set-option -g repeat-time 1000           (no repeat-time equivalent)
+# - set-option -g set-titles(-string) ...    (no outer-terminal title control)
+# - status-style / window-status-current-style exact colors
+#     -> herdr themes holistically via [theme], not per tmux-style element.
+#        Try uncommenting below for a rough look, adjust to taste:
+#   [theme]
+#   name = "catppuccin-latte"
+#   [theme.custom]
+#   accent = "blue"
+# - bind o kill-pane -a ("close all other panes")
+#     -> no such action exists; `zoom` (prefix+z, herdr default) is the
+#        closest practical substitute — it hides other panes without
+#        closing them.
+# - bind r swap-pane -D
+#     -> `herdr pane swap --direction ...` exists as a CLI/socket call but
+#        is not bindable as a config key in 0.7.1.
+# - bind ^T last-window (toggle to previously-active window)
+#     -> can't bind anything to "prefix pressed twice": herdr reserves that
+#        combo to send a literal prefix keystroke through to the pane (see
+#        the send-prefix note above). previous_tab stays on its default
+#        (prefix+p) instead.
